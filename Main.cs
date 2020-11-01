@@ -15,6 +15,7 @@ using UnityEngine.AI;
 using UnhollowerRuntimeLib;
 using UnityEngine.SceneManagement;
 using UnityEngine.Events;
+using System.Threading.Tasks;
 
 [assembly: MelonInfo(typeof(PhasmophobiaPotatoGUI.Main), "PhasmophobiaPotatoGUI", "1.0", "github.com/ThePotato97")]
 [assembly: MelonGame("Kinetic Games", "Phasmophobia")]
@@ -136,6 +137,8 @@ namespace PhasmophobiaPotatoGUI
         // Token: 0x0400005E RID: 94
         public static List<InventoryItem> items;
 
+        public static List<Player> players;
+
         // Token: 0x0400005F RID: 95
         public static List<FriendInfo> friends;
 
@@ -153,6 +156,19 @@ namespace PhasmophobiaPotatoGUI
 
         public override void OnApplicationStart()
         {
+            string curSceneName = SceneManager.GetActiveScene().name.ToLower();
+            while (!curSceneName.Contains("menu") && !curSceneName.Contains("new")) //check if main menu scene is fully loaded
+            {
+                new Thread(delegate ()
+                {
+                    for (; ; )
+                    {
+                        LoadObjects();
+                        Thread.Sleep(5000);
+                    }
+                }).Start();
+                break; //break
+            }
             var list = new List<string> { "Luigi", "Weegee", "Ouija", "Lauigi", "Wega", "Weegi", "Oiji", "Ooija", "Weggy", "Lauigi" };
             int randomInt = new System.Random().Next(list.Count);
             luigiBoardName = list[randomInt];
@@ -220,35 +236,51 @@ namespace PhasmophobiaPotatoGUI
         //    }
         //}
 
-        //private Player MyPlayer
-        //{
-        //    get
-        //    {
-        //        Type playerData = typeof(ObjectPublicPlStPlUnique);
-        //        Player playerField = (Player)playerData.GetField("field_Public_Player_0", BindingFlags.Public);
+        public static Player GetLocalPlayer()
+        {
+            if (players == null || players.Count == 0)
+            {
+                return null;
+            }
+            else if (players.Count == 1)
+            {
+                return players[0];
+            }
+            else
+            {
+                foreach (Player player in players)
+                {
+                    if (player != null)
+                    {
+                        if (player.field_Public_PhotonView_0 != null)
+                        {
+                            if (player.field_Public_PhotonView_0.AmOwner)
+                            {
+                                return player;
+                            }
+                        }
+                    }
+                }
 
-        //        return (Player)playerField
+                return null;
+            }
+        }
+
+        //public static List<Player> GetAllPlayers()
+        //{
+        //    if (players == null || players.Length == 0)
+        //    {
+        //        return null;
+        //    }
+        //    else
+        //    {
+        //        return players.ToList();
         //    }
         //}
 
-        private static bool modLoaded;
-
         public override void OnUpdate()
         {
-            if (SceneManager.sceneLoaded != null && !modLoaded)
-            {
-                modLoaded = true;
-                new Thread(delegate ()
-            {
-                for (; ; )
-                {
-                    this.loadObjects();
-                    Thread.Sleep(5000);
-                }
-            }).Start();
-            }
             var kb = Keyboard.current;
-            bool f2 = kb.f2Key.wasPressedThisFrame;
             bool insert = kb.insertKey.wasPressedThisFrame;
             if (insert)
             {
@@ -324,7 +356,7 @@ namespace PhasmophobiaPotatoGUI
         private bool GhostESP = true;
 
         // Token: 0x04000012 RID: 18
-        //private bool PlayerESP = true;
+        private bool PlayerESP = true;
 
         // Token: 0x04000013 RID: 19
         private bool KeyESP = true;
@@ -364,37 +396,29 @@ namespace PhasmophobiaPotatoGUI
             }
         }
 
-        //private void PlayerESPFunc()
-        //{
-        //    // instance = field_Public_Static_GameController_0
-        //    // playersdata = field_Public_List_1_ObjectPublicPlStPlUnique_0
+        private void PlayerESPFunc()
+        {
+            if (this.PlayerESP)
+            {
+                Player[] players = UnityEngine.Object.FindObjectsOfType<Player>();
 
-        //    if (this.PlayerESP)
-        //    {
-        //        Il2CppSystem.Collections.Generic.List<ObjectPublicPlStPlUnique> test;
+                foreach (Player player in players)
+                {
+                    UnityEngine.Object playerObject = player;
 
-        //        test = GameController.field_Public_Static_GameController_0.field_Public_List_1_ObjectPublicPlStPlUnique_0;
+                    MelonLogger.Log("Drawing ESP for " + player.field_Public_PhotonView_0.owner.NickName);
 
-        //        foreach (ObjectPublicPlStPlUnique playerData in test)
-        //        {
-        //            //Type myTypeA = typeof(Player);
-        //            //FieldInfo currentField = myTypeA.GetField("field_Public_Player_0", BindingFlags.Public);
-
-        //            //object currentPlayer = currentField.GetValue(Main.player);
-
-        //            //MelonLogger.Log("Drawing ESP for " + playerData.field_Public_String_0);
-
-        //            //Vector3 vector2 = Camera.main.WorldToScreenPoint(currentPlayer.transform.position);
-        //            //if (vector2.z > 0f)
-        //            //{
-        //            //    vector2.y = (float)Screen.height - (vector2.y + 1f);
-        //            //    GUI.color = Color.green;
-        //            //    GUI.DrawTexture(new Rect(new Vector2(vector2.x, vector2.y), new Vector2(5f, 5f)), Texture2D.whiteTexture, 0);
-        //            //    GUI.Label(new Rect(new Vector2(vector2.x, vector2.y), new Vector2(100f, 100f)), playerData.field_Public_String_0);
-        //            //}
-        //        }
-        //    }
-        //}
+                    Vector3 vector2 = Camera.main.WorldToScreenPoint(player.transform.position);
+                    if (vector2.z > 0f)
+                    {
+                        vector2.y = (float)Screen.height - (vector2.y + 1f);
+                        GUI.color = Color.green;
+                        GUI.DrawTexture(new Rect(new Vector2(vector2.x, vector2.y), new Vector2(5f, 5f)), Texture2D.whiteTexture, 0);
+                        GUI.Label(new Rect(new Vector2(vector2.x, vector2.y), new Vector2(100f, 100f)), player.field_Public_PhotonView_0.owner.NickName);
+                    }
+                }
+            }
+        }
 
         private void KeyESPFunc()
         {
@@ -447,7 +471,7 @@ namespace PhasmophobiaPotatoGUI
             }
         }
 
-        private void loadObjects()
+        private void LoadObjects()
         {
             if (SceneManager.sceneLoaded != null)
             {
@@ -482,6 +506,8 @@ namespace PhasmophobiaPotatoGUI
                 Main.contracts = Enumerable.ToList<Contract>(GameObject.FindObjectsOfType<Contract>());
 
                 Main.items = Enumerable.ToList<InventoryItem>(GameObject.FindObjectsOfType<InventoryItem>());
+
+                Main.players = Enumerable.ToList<Player>(GameObject.FindObjectsOfType<Player>());
 
                 Main.photonView = GameObject.FindObjectOfType<PhotonView>();
 
@@ -563,7 +589,6 @@ namespace PhasmophobiaPotatoGUI
         }
 
         // Token: 0x04000033 RID: 51
-        private Vector2 scrollViewVector = Vector2.zero;
 
         // Token: 0x04000034 RID: 52
         public Rect dropDownRect = new Rect(1420f, 0f, 200f, 300f);
@@ -577,7 +602,7 @@ namespace PhasmophobiaPotatoGUI
         //private int selecteditem;
         //private bool showItemList;
 
-        private void shitIStoleFromYude2000()
+        private void ShitIStoleFromYude2000()
         {
             //    string[] allitems = new string[]
             //{
@@ -823,10 +848,10 @@ namespace PhasmophobiaPotatoGUI
                 {
                     this.GhostESP = !this.GhostESP;
                 }
-                // if (GUI.Toggle(new Rect(920f, 370f, 200f, 20f), this.PlayerESP, "Player") != this.PlayerESP)
-                // {
-                //     this.PlayerESP = !this.PlayerESP;
-                // }
+                if (GUI.Toggle(new Rect(920f, 370f, 200f, 20f), this.PlayerESP, "Player") != this.PlayerESP)
+                {
+                    this.PlayerESP = !this.PlayerESP;
+                }
                 if (GUI.Toggle(new Rect(920f, 395f, 200f, 20f), this.OuijaESP, "Ouija Board") != this.OuijaESP)
                 {
                     this.OuijaESP = !this.OuijaESP;
@@ -863,12 +888,6 @@ namespace PhasmophobiaPotatoGUI
                 {
                     Main.serverManager.StartGame();
                 }
-
-                //if (GUI.Toggle(new Rect(320f, 220f, 200f, 20f), this.antikick, "Anti Kick [not stable]") != this.antikick)
-                //{
-                //    this.antikick = true;
-                //    PhotonNetwork.PhotonServerSettings.RpcList.Remove("LeaveServer");
-                //}
 
                 if (GUI.Button(new Rect(520f, 50f, 200f, 20f), "Add 100$"))
                 {
@@ -918,7 +937,7 @@ namespace PhasmophobiaPotatoGUI
 
                 if (menuEnabled)
                 {
-                    shitIStoleFromYude2000();
+                    ShitIStoleFromYude2000();
                 }
             }
         }
