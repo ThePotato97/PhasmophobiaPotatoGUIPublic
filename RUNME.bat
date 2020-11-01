@@ -1,4 +1,5 @@
 @echo off
+pushd %~dp0
 
 goto check_Permissions
 
@@ -13,6 +14,7 @@ goto check_Permissions
     )
 
 :createLink
-    set /p melonloader=Enter Path to MelonLoader folder: 
-    mklink /J melonloader %melonloader%
+    set /p melonloader=Enter Path to MelonLoader folder:
+    pushd 
+    mklink /J MelonLoader %melonloader%
     pause
