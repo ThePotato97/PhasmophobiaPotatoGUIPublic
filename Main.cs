@@ -603,72 +603,66 @@ namespace PhasmophobiaPotatoGUI
         // Token: 0x04000036 RID: 54
         //private GUIStyle guiStyle = new GUIStyle();
 
-        //private int selecteditem;
-        //private bool showItemList;
+        private int selecteditem;
+        private bool showItemList;
+
+        private Player MyPlayer;
 
         private void ShitIStoleFromYude2000()
         {
-            //    string[] allitems = new string[]
-            //{
-            //    "BasementKey",
-            //    "CarKey",
-            //    "GarageKey",
-            //    "MainKey",
-            //    "Blacklight Flashlight",
-            //    "Glowstick",
-            //    "Flashlight",
-            //    "StrongFlashlight",
-            //    "EMF Reader",
-            //    "EVP Recorder",
-            //    "Thermometer",
-            //    "IR Light Sensor",
-            //    "Motion Sensor",
-            //    "SoundSensor",
-            //    "Ghost Writing Book",
-            //    "Parabolic Microphone",
-            //    "DSLRCamera",
-            //    "Tripod",
-            //    "Head Mounted Camera",
-            //    "Candle",
-            //    "Crucifix",
-            //    "Lighter",
-            //    "SaltShaker",
-            //    "Bone",
-            //    "Ouija board",
-            //    "PainKillers",
-            //    "WhiteSage",
-            //    "Hellephant",
-            //    "Hanging Body",
-            //    "monsterprefab",
-            //    "WiccanAltar",
-            //    "ZomBear",
-            //    "ZomBunny",
-            //    "ButcherKnife",
-            //    "HumanSkull",
-            //    "VHS Tape",
-            //    "TarotCardBox",
-            //    "VoodooDoll",
-            //    "My Robot Kyle",
-            //    "Robot Kyle 2D",
-            //    "Robot Kyle Mecanim",
-            //    "Robot Kyle RPG",
-            //    "Bug",
-            //    "GhostOrb",
-            //    "EMF Spot",
-            //    "Footstep",
-            //    "PhotoPaper",
-            //    "Noise Spot",
-            //    "SaltSpot",
-            //    "SanitySoundSpot",
-            //    "TornCloth",
-            //    "Camera",
-            //    "Walkie Talkie",
-            //    "BoxFlashPrefab",
-            //    "Boy",
-            //    "muktargame",
-            //    "BoxPrefab",
-            //    "Environment"
-            //};
+            string[] allitems = new string[]
+        {
+                "BasementKey",
+                "CarKey",
+                "GarageKey",
+                "MainKey",
+                "Blacklight Flashlight",
+                "Glowstick",
+                "Flashlight",
+                "StrongFlashlight",
+                "EMF Reader",
+                "EVP Recorder",
+                "Thermometer",
+                "IR Light Sensor",
+                "Motion Sensor",
+                "SoundSensor",
+                "Ghost Writing Book",
+                "Parabolic Microphone",
+                "DSLRCamera",
+                "Tripod",
+                "Head Mounted Camera",
+                "Candle",
+                "Crucifix",
+                "Lighter",
+                "SaltShaker",
+                "Bone",
+                "Ouija board",
+                "PainKillers",
+                "WhiteSage",
+                "Hellephant",
+                "Hanging Body",
+                "monsterprefab",
+                "WiccanAltar",
+                "ZomBear",
+                "ZomBunny",
+                "ButcherKnife",
+                "HumanSkull",
+                "VHS Tape",
+                "TarotCardBox",
+                "VoodooDoll",
+                "Bug",
+                "GhostOrb",
+                "EMF Spot",
+                "Footstep",
+                "PhotoPaper",
+                "Noise Spot",
+                "SaltSpot",
+                "SanitySoundSpot",
+                "TornCloth",
+                "Camera",
+                "Walkie Talkie",
+                "BoxFlashPrefab",
+        };
 
             if (!PhotonNetwork.InRoom)
             {
@@ -717,15 +711,17 @@ namespace PhasmophobiaPotatoGUI
                     Main.ghostAI.field_Public_GhostActivity_0.Interact();
                     Main.ghostAI.RandomEvent();
                 }
+
                 //if (GUI.Button(new Rect(520f, 120f, 200f, 20f), "Sound"))
                 //{
                 //    Main.ghostAudio.PlaySound(1, false, false);
                 //    Main.ghostAudio.PlaySound(0, false, false);
-                //    Main.ghostInteraction.GetComponent<PhotonView>().RPC("SpawnFootstepNetworked", 0, new object[]
+
+                //    Main.ghostInteraction.GetComponent<PhotonView>().RPC("SpawnFootstepNetworked", 0, new Il2CppSystem.Object[]
                 //    {
-                //        this.MyPlayer.transform.position,
-                //        this.MyPlayer.transform.rotation,
-                //        Random.Range(0, 2)
+                //        ghostAI.transform.position,
+                //        ghostAI.transform.rotation,
+                //        new Il2CppSystem.Int32(){ m_value = UnityEngine.Random.Range(0, 3) }.BoxIl2CppObject()
                 //    });
                 //}
 
@@ -821,31 +817,32 @@ namespace PhasmophobiaPotatoGUI
                         new Il2CppSystem.Int32(){ m_value = UnityEngine.Random.Range(0, 3) }.BoxIl2CppObject()
                     });
                 }
-                //if (GUI.Toggle(new Rect(1120f, 325f, 200f, 20f), this.showItemList, "Show Item Spawner") != this.showItemList)
-                //{
-                //    this.showItemList = !this.showItemList;
-                //}
+                if (GUI.Toggle(new Rect(1120f, 325f, 200f, 20f), this.showItemList, "Show Item Spawner") != this.showItemList)
+                {
+                    this.showItemList = !this.showItemList;
+                }
 
-                //if (this.showItemList)
-                //{
-                //    GUI.Label(new Rect(520f, 225f, 200f, 20f), "Item Spawner:");
-                //    this.scrollViewVector = GUI.BeginScrollView(new Rect(this.dropDownRect2.x - 100f, this.dropDownRect2.y + 25f, this.dropDownRect2.width, this.dropDownRect2.height), this.scrollViewVector, new Rect(0f, 0f, this.dropDownRect2.width, Mathf.Max(this.dropDownRect2.height, (float)(allitems.Length * 25))));
-                //    GUI.Box(new Rect(0f, 0f, this.dropDownRect2.width, Mathf.Max(this.dropDownRect2.height, (float)(allitems.Length * 25))), "");
-                //    for (int l = 0; l < allitems.Length; l++)
-                //    {
-                //        if (GUI.Button(new Rect(0f, (float)(l * 25), this.dropDownRect2.height, 25f), ""))
-                //        {
-                //            this.selecteditem = l;
-                //            if (PhotonNetwork.InRoom)
-                //            {
-                //                MelonLogger.Log(allitems[this.selecteditem].ToString());
-                //                PhotonNetwork.Instantiate(allitems[this.selecteditem], MainManager.field_Public_Static_MainManager_0.field_Public_Player_0.transform.position, Quaternion.identity, 0, null);
-                //            }
-                //        }
-                //        GUI.Label(new Rect(5f, (float)(l * 25), this.dropDownRect2.height, 25f), allitems[l]);
-                //    }
-                //    GUI.EndScrollView();
-                //}
+                if (this.showItemList)
+                {
+                    GUI.Label(new Rect(520f, 225f, 200f, 20f), "Item Spawner:");
+                    this.scrollViewVector = GUI.BeginScrollView(new Rect(this.dropDownRect2.x - 100f, this.dropDownRect2.y + 25f, this.dropDownRect2.width, this.dropDownRect2.height), this.scrollViewVector, new Rect(0f, 0f, this.dropDownRect2.width, Mathf.Max(this.dropDownRect2.height, (float)(allitems.Length * 25))));
+                    GUI.Box(new Rect(0f, 0f, this.dropDownRect2.width, Mathf.Max(this.dropDownRect2.height, (float)(allitems.Length * 25))), "");
+                    for (int l = 0; l < allitems.Length; l++)
+                    {
+                        if (GUI.Button(new Rect(0f, (float)(l * 25), this.dropDownRect2.height, 25f), ""))
+                        {
+                            this.selecteditem = l;
+                            if (PhotonNetwork.InRoom)
+                            {
+                                MyPlayer = GetLocalPlayer();
+                                MelonLogger.Log(allitems[this.selecteditem].ToString());
+                                PhotonNetwork.Instantiate(allitems[this.selecteditem], MyPlayer.transform.position, Quaternion.identity, 0, null);
+                            }
+                        }
+                        GUI.Label(new Rect(5f, (float)(l * 25), this.dropDownRect2.height, 25f), allitems[l]);
+                    }
+                    GUI.EndScrollView();
+                }
 
                 GUI.Label(new Rect(920f, 295f, 200f, 20f), "ESP:");
                 if (GUI.Toggle(new Rect(920f, 320f, 200f, 20f), this.GhostESP, "Ghost") != this.GhostESP)
@@ -927,6 +924,7 @@ namespace PhasmophobiaPotatoGUI
         }
 
         private string Name;
+        private Vector2 scrollViewVector;
 
         public override void OnGUI()
         {
