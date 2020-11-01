@@ -16,6 +16,7 @@ using UnhollowerRuntimeLib;
 using UnityEngine.SceneManagement;
 using UnityEngine.Events;
 using System.Threading.Tasks;
+using UnityStandardAssets.Characters.FirstPerson;
 
 [assembly: MelonInfo(typeof(PhasmophobiaPotatoGUI.Main), "PhasmophobiaPotatoGUI", "1.0", "github.com/ThePotato97")]
 [assembly: MelonGame("Kinetic Games", "Phasmophobia")]
@@ -363,13 +364,19 @@ namespace PhasmophobiaPotatoGUI
                 menuEnabled = !menuEnabled;
                 if (!menuEnabled)
                 {
+                    GameObject.FindObjectOfType<Player>();
+                    MyPlayer = GetLocalPlayer();
                     Cursor.lockState = CursorLockMode.Confined;
                     Cursor.visible = false;
+                    MyPlayer.field_Public_FirstPersonController_0.enabled = true;
+                    MyPlayer.field_Public_Animator_0.SetFloat("speed", 0f);
                 }
                 if (menuEnabled)
                 {
                     Cursor.lockState = CursorLockMode.None;
                     Cursor.visible = true;
+                    MyPlayer.field_Public_FirstPersonController_0.enabled = false;
+                    MyPlayer.field_Public_Animator_0.SetFloat("speed", 0f);
                 }
             }
             bool delete = kb.deleteKey.wasPressedThisFrame;
@@ -545,10 +552,6 @@ namespace PhasmophobiaPotatoGUI
                     }
                 }
             }
-        }
-
-        public static async void LoadAllObjects()
-        {
         }
 
         private void HUD()
