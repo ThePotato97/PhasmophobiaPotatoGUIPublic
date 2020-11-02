@@ -851,6 +851,7 @@ namespace PhasmophobiaPotatoGUI
 
                 if (this.showItemList)
                 {
+                    string[] allitems = Constants.allitems;
                     GUI.Label(new Rect(520f, 225f, 200f, 20f), "Item Spawner:");
                     this.scrollViewVector = GUI.BeginScrollView(new Rect(this.dropDownRect.x - 100f, this.dropDownRect.y + 25f, this.dropDownRect.width, this.dropDownRect.height), this.scrollViewVector, new Rect(0f, 0f, this.dropDownRect.width, Mathf.Max(this.dropDownRect.height, (float)(allitems.Length * 25))));
                     GUI.Box(new Rect(0f, 0f, this.dropDownRect.width, Mathf.Max(this.dropDownRect.height, (float)(allitems.Length * 25))), "");
