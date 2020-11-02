@@ -8,27 +8,21 @@ on:
 
 jobs:
   build:
-
+    if: github.event.pull_request.head.repo.full_name == github.repository
     runs-on: windows-latest
 
     steps:
-    -
-      if: github.event.pull_request.head.repo.full_name == github.repository
-      uses: actions/checkout@v2
+    - uses: actions/checkout@v2
       with:
         submodules: true 
         token: '${{ secrets.PAT }}'
     - name: Setup .NET Core
-      if: github.event.pull_request.head.repo.full_name == github.repository
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.301    
     - name: Install dependencies
-      if: github.event.pull_request.head.repo.full_name == github.repository
       run: dotnet restore
     - name: Build
-      if: github.event.pull_request.head.repo.full_name == github.repository
       run: dotnet build --configuration Release --no-restore
     - name: Test
-      if: github.event.pull_request.head.repo.full_name == github.repository
       run: dotnet test --no-restore --verbosity normal      
