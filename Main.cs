@@ -465,7 +465,7 @@ namespace PhasmophobiaPotatoGUI
         {
             if (gameController != null && ghostAI != null)
             {
-                if (this.GhostESP)
+                if (GhostESP)
                 {
                     foreach (GhostAI ghostAI in ghosts)
                     {
@@ -484,7 +484,7 @@ namespace PhasmophobiaPotatoGUI
 
         private void PlayerESPFunc()
         {
-            if (this.PlayerESP)
+            if (PlayerESP)
             {
                 Player[] players = UnityEngine.Object.FindObjectsOfType<Player>();
 
@@ -508,7 +508,7 @@ namespace PhasmophobiaPotatoGUI
 
         private void KeyESPFunc()
         {
-            if (keys != null && this.KeyESP)
+            if (keys != null && KeyESP)
             {
                 foreach (Key key in keys)
                 {
@@ -525,7 +525,7 @@ namespace PhasmophobiaPotatoGUI
 
         private void OuijaESPFunc()
         {
-            if (ouijaBoard != null && this.OuijaESP)
+            if (ouijaBoard != null && OuijaESP)
             {
                 foreach (OuijaBoard ouijaBoard in ouijaBoards)
                 {
@@ -542,7 +542,7 @@ namespace PhasmophobiaPotatoGUI
 
         private void BoneESP()
         {
-            if (dNAEvidences != null && this.EvidenceESP)
+            if (dNAEvidences != null && EvidenceESP)
             {
                 foreach (DNAEvidence dnaevidence in dNAEvidences)
                 {
@@ -563,7 +563,6 @@ namespace PhasmophobiaPotatoGUI
         public Rect dropDownRect = new Rect(1420f, 0f, 200f, 300f);
 
         // Token: 0x04000035 RID: 53
-        public Rect dropDownRect2 = new Rect(820f, 0f, 200f, 300f);
 
         // Token: 0x04000036 RID: 54
         //private GUIStyle guiStyle = new GUIStyle();
@@ -578,38 +577,38 @@ namespace PhasmophobiaPotatoGUI
             if (!PhotonNetwork.InRoom)
             {
                 GUI.Label(new Rect(720f, 0f, 200f, 20f), "Custom Room Creator:");
-                this.serverName = GUI.TextArea(new Rect(720f, 25f, 200f, 20f), this.serverName);
-                this.serverSlots = GUI.HorizontalSlider(new Rect(720f, 50f, 200f, 20f), (float)((int)this.serverSlots), 4f, 90f);
-                GUI.Label(new Rect(720f, 65f, 200f, 20f), "Slots: " + ((int)this.serverSlots).ToString());
-                if (GUI.Toggle(new Rect(720f, 80f, 200f, 20f), this.isPrivateServer, "Private Room") != this.isPrivateServer)
+                serverName = GUI.TextArea(new Rect(720f, 25f, 200f, 20f), serverName);
+                serverSlots = GUI.HorizontalSlider(new Rect(720f, 50f, 200f, 20f), (float)((int)serverSlots), 4f, 90f);
+                GUI.Label(new Rect(720f, 65f, 200f, 20f), "Slots: " + ((int)serverSlots).ToString());
+                if (GUI.Toggle(new Rect(720f, 80f, 200f, 20f), isPrivateServer, "Private Room") != isPrivateServer)
                 {
-                    this.isPrivateServer = !isPrivateServer;
+                    isPrivateServer = !isPrivateServer;
                 }
                 if (GUI.Button(new Rect(720f, 105f, 200f, 20f), "Create Custom Room"))
                 {
-                    if (this.isPrivateServer)
+                    if (isPrivateServer)
                     {
                         PlayerPrefs.SetInt("isPublicServer", 0);
                         RoomOptions roomOptions = new RoomOptions
                         {
                             IsOpen = true,
                             IsVisible = false,
-                            MaxPlayers = Convert.ToByte((int)this.serverSlots),
+                            MaxPlayers = Convert.ToByte((int)serverSlots),
                             PlayerTtl = 2000
                         };
                         PhotonNetwork.CreateRoom(UnityEngine.Random.Range(0, 999999).ToString("000000"), roomOptions, TypedLobby.Default);
                     }
-                    if (!this.isPrivateServer)
+                    if (!isPrivateServer)
                     {
                         PlayerPrefs.SetInt("isPublicServer", 1);
                         RoomOptions roomOptions2 = new RoomOptions
                         {
                             IsOpen = true,
                             IsVisible = true,
-                            MaxPlayers = Convert.ToByte((int)this.serverSlots),
+                            MaxPlayers = Convert.ToByte((int)serverSlots),
                             PlayerTtl = 2000
                         };
-                        PhotonNetwork.CreateRoom(this.serverName + "#" + UnityEngine.Random.Range(0, 999999).ToString("000000"), roomOptions2, TypedLobby.Default);
+                        PhotonNetwork.CreateRoom(serverName + "#" + UnityEngine.Random.Range(0, 999999).ToString("000000"), roomOptions2, TypedLobby.Default);
                     }
                 }
             }
@@ -619,166 +618,24 @@ namespace PhasmophobiaPotatoGUI
         {
             if (Main.levelController != null)
             {
-                if (GUI.Button(new Rect(520f, 120f, 200f, 20f), "Random Event") && Main.ghostAI != null)
-                {
-                    Main.ghostAI.field_Public_GhostActivity_0.InteractWithARandomDoor();
-                    Main.ghostAI.field_Public_GhostActivity_0.InteractWithARandomProp();
-                    Main.ghostAI.field_Public_GhostActivity_0.Interact();
-                    Main.ghostAI.RandomEvent();
-                }
-
-                //if (GUI.Button(new Rect(520f, 120f, 200f, 20f), "Sound"))
-                //{
-                //    Main.ghostAudio.PlaySound(1, false, false);
-                //    Main.ghostAudio.PlaySound(0, false, false);
-
-                //    Main.ghostInteraction.GetComponent<PhotonView>().RPC("SpawnFootstepNetworked", 0, new Il2CppSystem.Object[]
-                //    {
-                //        ghostAI.transform.position,
-                //        ghostAI.transform.rotation,
-                //        new Il2CppSystem.Int32(){ m_value = UnityEngine.Random.Range(0, 3) }.BoxIl2CppObject()
-                //    });
-                //}
-
-                if (GUI.Button(new Rect(520f, 145f, 200f, 20f), "Wander"))
-                {
-                    Main.ghostAI.field_Public_Boolean_6 = true;
-                    Main.ghostAI.field_Public_Animator_0.SetBool("isIdle", false);
-                    Vector3 destination = Vector3.zero;
-                    NavMeshHit navMeshHit;
-                    if (NavMesh.SamplePosition(UnityEngine.Random.insideUnitSphere * 3f + Main.ghostAI.transform.position, out navMeshHit, 3f, 1))
-                    {
-                        destination = navMeshHit.position;
-                    }
-                    Main.ghostAI.field_Public_NavMeshAgent_0.destination = destination;
-                    Main.ghostAI.ChangeState((GhostAI.EnumNPublicSealedvaidwahufalidothfuapUnique)1, null, null);
-                    Main.ghostAI.field_Public_PhotonView_0.RPC("Hunting", 0, new Il2CppSystem.Object[]
-                    {
-                        new Il2CppSystem.Boolean().BoxIl2CppObject()
-                    });
-                    Main.ghostAI.field_Public_PhotonView_0.RPC("SyncChasingPlayer", 0, new Il2CppSystem.Object[]
-                    {
-                        new Il2CppSystem.Boolean().BoxIl2CppObject()
-                    });
-                }
-                if (GUI.Button(new Rect(520f, 170f, 200f, 20f), "Hunt"))
-                {
-                    SetupPhaseController.field_Public_Static_SetupPhaseController_0.field_Public_Boolean_0 = false;
-                    Main.ghostAI.field_Public_Boolean_4 = true;
-                    Main.ghostAI.field_Public_Boolean_2 = true;
-                    Main.ghostAI.field_Public_Animator_0.SetBool("isIdle", false);
-                    Main.ghostAI.field_Public_Animator_0.SetInteger("WalkType", 1);
-                    Main.ghostAI.field_Public_NavMeshAgent_0.speed = Main.ghostAI.field_Public_Single_0;
-                    Main.ghostAI.field_Public_GhostInteraction_0.CreateAppearedEMF(Main.ghostAI.transform.position);
-                    Vector3 destination2 = Vector3.zero;
-                    float num = UnityEngine.Random.Range(2f, 15f);
-
-                    NavMeshHit navMeshHit2;
-
-                    if (NavMesh.SamplePosition(UnityEngine.Random.insideUnitSphere * num + Main.ghostAI.transform.position, out navMeshHit2, num, 1))
-                    {
-                        destination2 = navMeshHit2.position;
-                    }
-                    else
-                    {
-                        destination2 = Vector3.zero;
-                    }
-                    Main.ghostAI.field_Public_NavMeshAgent_0.SetDestination(destination2);
-                    SetupPhaseController.field_Public_Static_SetupPhaseController_0.ForceEnterHuntingPhase();
-                    Main.ghostAI.ChangeState((GhostAI.EnumNPublicSealedvaidwahufalidothfuapUnique)2, null, null);
-                    Main.ghostAI.field_Public_PhotonView_0.RPC("Hunting", 0, new Il2CppSystem.Object[]
-                    {
-                        new Il2CppSystem.Boolean(){ m_value = true}.BoxIl2CppObject()
-                    });
-                    Main.ghostAI.field_Public_PhotonView_0.RPC("SyncChasingPlayer", 0, new Il2CppSystem.Object[]
-                    {
-                        new Il2CppSystem.Boolean(){ m_value = true}.BoxIl2CppObject()
-                    });
-                }
-                if (GUI.Button(new Rect(520f, 195f, 200f, 20f), "Idle"))
-                {
-                    Main.ghostAI.field_Public_Animator_0.SetInteger("IdleNumber", UnityEngine.Random.Range(0, 2));
-                    Main.ghostAI.field_Public_Animator_0.SetBool("isIdle", true);
-                    Main.ghostAI.UnAppear(false);
-                    Main.ghostAI.field_Public_GhostAudio_0.TurnOnOrOffAppearSource(false);
-                    Main.ghostAI.field_Public_GhostAudio_0.PlayOrStopAppearSource(false);
-                    Main.ghostAI.ChangeState(0, null, null);
-                    Main.ghostAI.field_Public_PhotonView_0.RPC("Hunting", 0, new Il2CppSystem.Object[]
-                    {
-                        new Il2CppSystem.Boolean().BoxIl2CppObject()
-                    });
-                    Main.ghostAI.field_Public_PhotonView_0.RPC("SyncChasingPlayer", 0, new Il2CppSystem.Object[]
-                    {
-                        new Il2CppSystem.Boolean().BoxIl2CppObject()
-                    });
-                }
-                Il2CppSystem.Int32 appearRand = new Il2CppSystem.Int32
-                {
-                    m_value = UnityEngine.Random.Range(0, 3)
-                };
-
-                if (GUI.Button(new Rect(520f, 220f, 200f, 20f), "Appear"))
-                {
-                    Main.ghostAI.field_Public_PhotonView_0.RPC("MakeGhostAppear", 0, new Il2CppSystem.Object[]
-                    {
-                        new Il2CppSystem.Boolean(){ m_value = true}.BoxIl2CppObject(),
-                        new Il2CppSystem.Int32(){ m_value = UnityEngine.Random.Range(0, 3) }.BoxIl2CppObject()
-                    });
-                }
-                if (GUI.Button(new Rect(520f, 245f, 200f, 20f), "Unappear"))
-                {
-                    Main.ghostAI.field_Public_PhotonView_0.RPC("MakeGhostAppear", 0, new Il2CppSystem.Object[]
-                    {
-                        new Il2CppSystem.Boolean().BoxIl2CppObject(),
-                        new Il2CppSystem.Int32(){ m_value = UnityEngine.Random.Range(0, 3) }.BoxIl2CppObject()
-                    });
-                }
-                if (GUI.Toggle(new Rect(1120f, 325f, 200f, 20f), this.showItemList, "Show Item Spawner") != this.showItemList)
-                {
-                    this.showItemList = !this.showItemList;
-                }
-
-                if (this.showItemList)
-                {
-                    string[] allitems = Constants.allitems;
-                    GUI.Label(new Rect(520f, 225f, 200f, 20f), "Item Spawner:");
-                    this.scrollViewVector = GUI.BeginScrollView(new Rect(this.dropDownRect2.x - 100f, this.dropDownRect2.y + 25f, this.dropDownRect2.width, this.dropDownRect2.height), this.scrollViewVector, new Rect(0f, 0f, this.dropDownRect2.width, Mathf.Max(this.dropDownRect2.height, (float)(allitems.Length * 25))));
-                    GUI.Box(new Rect(0f, 0f, this.dropDownRect2.width, Mathf.Max(this.dropDownRect2.height, (float)(allitems.Length * 25))), "");
-                    for (int l = 0; l < allitems.Length; l++)
-                    {
-                        if (GUI.Button(new Rect(0f, (float)(l * 25), this.dropDownRect2.height, 25f), ""))
-                        {
-                            this.selecteditem = l;
-                            if (PhotonNetwork.InRoom)
-                            {
-                                MyPlayer = GetLocalPlayer();
-                                MelonLogger.Log(allitems[this.selecteditem].ToString());
-                                PhotonNetwork.Instantiate(allitems[this.selecteditem], MyPlayer.transform.position, Quaternion.identity, 0, null);
-                            }
-                        }
-                        GUI.Label(new Rect(5f, (float)(l * 25), this.dropDownRect2.height, 25f), allitems[l]);
-                    }
-                    GUI.EndScrollView();
-                }
-
                 GUI.Label(new Rect(920f, 295f, 200f, 20f), "ESP:");
-                if (GUI.Toggle(new Rect(920f, 320f, 200f, 20f), this.GhostESP, "Ghost") != this.GhostESP)
+                if (GUI.Toggle(new Rect(920f, 320f, 200f, 20f), GhostESP, "Ghost") != GhostESP)
                 {
                     GhostESP = !GhostESP;
                 }
-                if (GUI.Toggle(new Rect(920f, 370f, 200f, 20f), this.PlayerESP, "Player") != this.PlayerESP)
+                if (GUI.Toggle(new Rect(920f, 370f, 200f, 20f), PlayerESP, "Player") != PlayerESP)
                 {
                     PlayerESP = !PlayerESP;
                 }
-                if (GUI.Toggle(new Rect(920f, 395f, 200f, 20f), this.OuijaESP, "Ouija Board") != this.OuijaESP)
+                if (GUI.Toggle(new Rect(920f, 395f, 200f, 20f), OuijaESP, "Ouija Board") != OuijaESP)
                 {
                     OuijaESP = !OuijaESP;
                 }
-                if (GUI.Toggle(new Rect(920f, 420f, 200f, 20f), this.KeyESP, "Key") != this.KeyESP)
+                if (GUI.Toggle(new Rect(920f, 420f, 200f, 20f), KeyESP, "Key") != KeyESP)
                 {
                     KeyESP = !KeyESP;
                 }
-                if (GUI.Toggle(new Rect(920f, 445f, 200f, 20f), EvidenceESP, "Evidence") != this.EvidenceESP)
+                if (GUI.Toggle(new Rect(920f, 445f, 200f, 20f), EvidenceESP, "Evidence") != EvidenceESP)
                 {
                     EvidenceESP = !EvidenceESP;
                 }
@@ -794,87 +651,36 @@ namespace PhasmophobiaPotatoGUI
             }
             if (Main.levelController == null)
             {
-                GUI.SetNextControlName("changename");
-                this.Name = GUI.TextArea(new Rect(320f, 25f, 200f, 20f), this.Name);
-                if (GUI.Button(new Rect(320f, 45f, 200f, 20f), "Change Name"))
+                if (GUI.Toggle(new Rect(1120f, 325f, 200f, 20f), showItemList, "Show Item Spawner") != showItemList)
                 {
-                    GUI.FocusControl("changename");
-                    PhotonNetwork.NickName = this.Name;
+                    showItemList = !showItemList;
                 }
 
-                if (GUI.Button(new Rect(320f, 145f, 200f, 20f), "Force Start"))
-                {
-                    Main.serverManager.StartGame();
-                }
-
-                if (GUI.Button(new Rect(520f, 50f, 200f, 20f), "Add 100$"))
-                {
-                    FileBasedPrefs.SetInt("PlayersMoney", FileBasedPrefs.GetInt("PlayersMoney", 0) + 100);
-                }
-                if (GUI.Button(new Rect(520f, 75f, 200f, 20f), "Add 1 Level"))
-                {
-                    FileBasedPrefs.SetInt("myTotalExp", FileBasedPrefs.GetInt("myTotalExp", 0) + 100);
-                }
-                this.reach = GUI.HorizontalSlider(new Rect(720f, 200f, 200f, 20f), (float)((int)this.reach), 1.6f, 16f);
-                GUI.Label(new Rect(520f, 175f, 200, 20f), "Reach: " + (int)this.reach);
-                if (GUI.Button(new Rect(720f, 225f, 200f, 20f), "Click to change reach"))
-                {
-                    MyPlayer = GetLocalPlayer();
-                    MyPlayer.field_Public_PCPropGrab_0.field_Private_Single_0 = this.reach;
-                    MelonLogger.Log(MyPlayer.field_Public_PCPropGrab_0.field_Private_Single_0);
-                }
-                //GUI.Label(new Rect(920f, 0f, 200f, 20f), "Join Room:");
-                //this.roomName = GUI.TextArea(new Rect(920f, 25f, 200f, 20f), this.roomName);
-                //this.steamID = GUI.TextArea(new Rect(920f, 50f, 200f, 20f), this.steamID);
-                //if (GUI.Button(new Rect(920f, 75f, 200f, 20f), "Join Room by Name"))
-                //{
-                //    PhotonNetwork.JoinRoom(this.roomName);
-                //}
-                //if (GUI.Button(new Rect(920f, 100f, 200f, 20f), "Join Room by ID"))
-                //{
-                //    object[] FriendIDList;
-
-                //    bool test = PhotonNetwork.FindFriends(new string[]
-                //    {
-                //            this.steamID
-                //    });
-                //    MelonLogger.Log("steamID = " + steamID);
-                //    //foreach (FriendInfo friendInfo in PhotonNetwork.Friends)
-                //    //{
-                //    //PhotonNetwork.JoinRoom(friendInfo.Room);
-                //    //}
-                //}
-                if (GUI.Toggle(new Rect(1120f, 325f, 200f, 20f), this.showItemList, "Show Item Spawner") != this.showItemList)
-                {
-                    this.showItemList = !this.showItemList;
-                }
-
-                if (this.showItemList)
+                if (showItemList)
                 {
                     string[] allitems = Constants.allitems;
                     GUI.Label(new Rect(520f, 225f, 200f, 20f), "Item Spawner:");
-                    this.scrollViewVector = GUI.BeginScrollView(new Rect(this.dropDownRect.x - 100f, this.dropDownRect.y + 25f, this.dropDownRect.width, this.dropDownRect.height), this.scrollViewVector, new Rect(0f, 0f, this.dropDownRect.width, Mathf.Max(this.dropDownRect.height, (float)(allitems.Length * 25))));
-                    GUI.Box(new Rect(0f, 0f, this.dropDownRect.width, Mathf.Max(this.dropDownRect.height, (float)(allitems.Length * 25))), "");
+                    scrollViewVector = GUI.BeginScrollView(new Rect(dropDownRect.x - 100f, dropDownRect.y + 25f, dropDownRect.width, dropDownRect.height), scrollViewVector, new Rect(0f, 0f, dropDownRect.width, Mathf.Max(dropDownRect.height, (float)(allitems.Length * 25))));
+                    GUI.Box(new Rect(0f, 0f, dropDownRect.width, Mathf.Max(dropDownRect.height, (float)(allitems.Length * 25))), "");
                     for (int l = 0; l < allitems.Length; l++)
                     {
-                        if (GUI.Button(new Rect(0f, (float)(l * 25), this.dropDownRect.height, 25f), ""))
+                        if (GUI.Button(new Rect(0f, (float)(l * 25), dropDownRect.height, 25f), ""))
                         {
-                            this.selecteditem = l;
+                            selecteditem = l;
                             if (PhotonNetwork.InRoom)
                             {
                                 MyPlayer = GetLocalPlayer();
-                                MelonLogger.Log(allitems[this.selecteditem].ToString());
-                                PhotonNetwork.Instantiate(allitems[this.selecteditem], MyPlayer.transform.position, Quaternion.identity, 0, null);
+                                MelonLogger.Log(allitems[selecteditem].ToString());
+                                PhotonNetwork.Instantiate(allitems[selecteditem], MyPlayer.transform.position, Quaternion.identity, 0, null);
                             }
                         }
-                        GUI.Label(new Rect(5f, (float)(l * 25), this.dropDownRect.height, 25f), allitems[l]);
+                        GUI.Label(new Rect(5f, (float)(l * 25), dropDownRect.height, 25f), allitems[l]);
                     }
                     GUI.EndScrollView();
                 }
             }
         }
 
-        private string Name;
         private Vector2 scrollViewVector;
 
         public static bool showMissionInfo = true;
@@ -959,6 +765,221 @@ namespace PhasmophobiaPotatoGUI
             float sanity = (float)(Math.Round(Main.player.field_Public_Single_0 * 100f) / 100f);
             GUI.Label(new Rect(10f, 130f, 150f, 20f), "Sanity: " + (100 - sanity));
             GUI.Label(new Rect(10f, 145f, 150f, 20f), "Current Room: " + LevelController.field_Public_Static_LevelController_0.field_Public_LevelRoom_2.field_Public_String_0);
+        }
+    }
+
+    public class Menu : MelonMod
+    {
+        private static void ghostActions()
+        {
+            if (GUI.Button(new Rect(520f, 120f, 200f, 20f), "Random Event") && Main.ghostAI != null)
+            {
+                Main.ghostAI.field_Public_GhostActivity_0.InteractWithARandomDoor();
+                Main.ghostAI.field_Public_GhostActivity_0.InteractWithARandomProp();
+                Main.ghostAI.field_Public_GhostActivity_0.Interact();
+                Main.ghostAI.RandomEvent();
+            }
+
+            //if (GUI.Button(new Rect(520f, 120f, 200f, 20f), "Sound"))
+            //{
+            //    Main.ghostAudio.PlaySound(1, false, false);
+            //    Main.ghostAudio.PlaySound(0, false, false);
+
+            //    Main.ghostInteraction.GetComponent<PhotonView>().RPC("SpawnFootstepNetworked", 0, new Il2CppSystem.Object[]
+            //    {
+            //        ghostAI.transform.position,
+            //        ghostAI.transform.rotation,
+            //        new Il2CppSystem.Int32(){ m_value = UnityEngine.Random.Range(0, 3) }.BoxIl2CppObject()
+            //    });
+            //}
+
+            if (GUI.Button(new Rect(520f, 145f, 200f, 20f), "Wander"))
+            {
+                Main.ghostAI.field_Public_Boolean_6 = true;
+                Main.ghostAI.field_Public_Animator_0.SetBool("isIdle", false);
+                Vector3 destination = Vector3.zero;
+                NavMeshHit navMeshHit;
+                if (NavMesh.SamplePosition(UnityEngine.Random.insideUnitSphere * 3f + Main.ghostAI.transform.position, out navMeshHit, 3f, 1))
+                {
+                    destination = navMeshHit.position;
+                }
+                Main.ghostAI.field_Public_NavMeshAgent_0.destination = destination;
+                Main.ghostAI.ChangeState((GhostAI.EnumNPublicSealedvaidwahufalidothfuapUnique)1, null, null);
+                Main.ghostAI.field_Public_PhotonView_0.RPC("Hunting", 0, new Il2CppSystem.Object[]
+                {
+                        new Il2CppSystem.Boolean().BoxIl2CppObject()
+                });
+                Main.ghostAI.field_Public_PhotonView_0.RPC("SyncChasingPlayer", 0, new Il2CppSystem.Object[]
+                {
+                        new Il2CppSystem.Boolean().BoxIl2CppObject()
+                });
+            }
+            if (GUI.Button(new Rect(520f, 170f, 200f, 20f), "Hunt"))
+            {
+                SetupPhaseController.field_Public_Static_SetupPhaseController_0.field_Public_Boolean_0 = false;
+                Main.ghostAI.field_Public_Boolean_4 = true;
+                Main.ghostAI.field_Public_Boolean_2 = true;
+                Main.ghostAI.field_Public_Animator_0.SetBool("isIdle", false);
+                Main.ghostAI.field_Public_Animator_0.SetInteger("WalkType", 1);
+                Main.ghostAI.field_Public_NavMeshAgent_0.speed = Main.ghostAI.field_Public_Single_0;
+                Main.ghostAI.field_Public_GhostInteraction_0.CreateAppearedEMF(Main.ghostAI.transform.position);
+                Vector3 destination2 = Vector3.zero;
+                float num = UnityEngine.Random.Range(2f, 15f);
+
+                NavMeshHit navMeshHit2;
+
+                if (NavMesh.SamplePosition(UnityEngine.Random.insideUnitSphere * num + Main.ghostAI.transform.position, out navMeshHit2, num, 1))
+                {
+                    destination2 = navMeshHit2.position;
+                }
+                else
+                {
+                    destination2 = Vector3.zero;
+                }
+                Main.ghostAI.field_Public_NavMeshAgent_0.SetDestination(destination2);
+                SetupPhaseController.field_Public_Static_SetupPhaseController_0.ForceEnterHuntingPhase();
+                Main.ghostAI.ChangeState((GhostAI.EnumNPublicSealedvaidwahufalidothfuapUnique)2, null, null);
+                Main.ghostAI.field_Public_PhotonView_0.RPC("Hunting", 0, new Il2CppSystem.Object[]
+                {
+                        new Il2CppSystem.Boolean(){ m_value = true}.BoxIl2CppObject()
+                });
+                Main.ghostAI.field_Public_PhotonView_0.RPC("SyncChasingPlayer", 0, new Il2CppSystem.Object[]
+                {
+                        new Il2CppSystem.Boolean(){ m_value = true}.BoxIl2CppObject()
+                });
+            }
+            if (GUI.Button(new Rect(520f, 195f, 200f, 20f), "Idle"))
+            {
+                Main.ghostAI.field_Public_Animator_0.SetInteger("IdleNumber", UnityEngine.Random.Range(0, 2));
+                Main.ghostAI.field_Public_Animator_0.SetBool("isIdle", true);
+                Main.ghostAI.UnAppear(false);
+                Main.ghostAI.field_Public_GhostAudio_0.TurnOnOrOffAppearSource(false);
+                Main.ghostAI.field_Public_GhostAudio_0.PlayOrStopAppearSource(false);
+                Main.ghostAI.ChangeState(0, null, null);
+                Main.ghostAI.field_Public_PhotonView_0.RPC("Hunting", 0, new Il2CppSystem.Object[]
+                {
+                        new Il2CppSystem.Boolean().BoxIl2CppObject()
+                });
+                Main.ghostAI.field_Public_PhotonView_0.RPC("SyncChasingPlayer", 0, new Il2CppSystem.Object[]
+                {
+                        new Il2CppSystem.Boolean().BoxIl2CppObject()
+                });
+            }
+            Il2CppSystem.Int32 appearRand = new Il2CppSystem.Int32
+            {
+                m_value = UnityEngine.Random.Range(0, 3)
+            };
+
+            if (GUI.Button(new Rect(520f, 220f, 200f, 20f), "Appear"))
+            {
+                Main.ghostAI.field_Public_PhotonView_0.RPC("MakeGhostAppear", 0, new Il2CppSystem.Object[]
+                {
+                        new Il2CppSystem.Boolean(){ m_value = true}.BoxIl2CppObject(),
+                        new Il2CppSystem.Int32(){ m_value = UnityEngine.Random.Range(0, 3) }.BoxIl2CppObject()
+                });
+            }
+            if (GUI.Button(new Rect(520f, 245f, 200f, 20f), "Unappear"))
+            {
+                Main.ghostAI.field_Public_PhotonView_0.RPC("MakeGhostAppear", 0, new Il2CppSystem.Object[]
+                {
+                        new Il2CppSystem.Boolean().BoxIl2CppObject(),
+                        new Il2CppSystem.Int32(){ m_value = UnityEngine.Random.Range(0, 3) }.BoxIl2CppObject()
+                });
+            }
+        }
+
+        private static string playerNickName;
+        private static Player MyPlayer;
+        private static float playerReach;
+
+        private static void lobbyActions()
+        {
+            GUI.SetNextControlName("changename");
+            playerNickName = GUI.TextArea(new Rect(320f, 25f, 200f, 20f), playerNickName);
+            if (GUI.Button(new Rect(320f, 45f, 200f, 20f), "Change Name"))
+            {
+                GUI.FocusControl("changename");
+                PhotonNetwork.NickName = playerNickName;
+            }
+
+            if (GUI.Button(new Rect(320f, 145f, 200f, 20f), "Force Start"))
+            {
+                Main.serverManager.StartGame();
+            }
+
+            if (GUI.Button(new Rect(520f, 50f, 200f, 20f), "Add 100$"))
+            {
+                FileBasedPrefs.SetInt("PlayersMoney", FileBasedPrefs.GetInt("PlayersMoney", 0) + 100);
+            }
+            if (GUI.Button(new Rect(520f, 75f, 200f, 20f), "Add 1 Level"))
+            {
+                FileBasedPrefs.SetInt("myTotalExp", FileBasedPrefs.GetInt("myTotalExp", 0) + 100);
+            }
+            playerReach = GUI.HorizontalSlider(new Rect(720f, 200f, 200f, 20f), (float)((int)playerReach), 1.6f, 16f);
+            GUI.Label(new Rect(520f, 175f, 200, 20f), "Reach: " + (int)playerReach);
+            if (GUI.Button(new Rect(720f, 225f, 200f, 20f), "Click to change reach"))
+            {
+                MyPlayer = Main.GetLocalPlayer();
+                MyPlayer.field_Public_PCPropGrab_0.field_Private_Single_0 = playerReach;
+                MelonLogger.Log(MyPlayer.field_Public_PCPropGrab_0.field_Private_Single_0);
+            }
+            //GUI.Label(new Rect(920f, 0f, 200f, 20f), "Join Room:");
+            //roomName = GUI.TextArea(new Rect(920f, 25f, 200f, 20f), roomName);
+            //steamID = GUI.TextArea(new Rect(920f, 50f, 200f, 20f), steamID);
+            //if (GUI.Button(new Rect(920f, 75f, 200f, 20f), "Join Room by Name"))
+            //{
+            //    PhotonNetwork.JoinRoom(roomName);
+            //}
+            //if (GUI.Button(new Rect(920f, 100f, 200f, 20f), "Join Room by ID"))
+            //{
+            //    object[] FriendIDList;
+
+            //    bool test = PhotonNetwork.FindFriends(new string[]
+            //    {
+            //            steamID
+            //    });
+            //    MelonLogger.Log("steamID = " + steamID);
+            //    //foreach (FriendInfo friendInfo in PhotonNetwork.Friends)
+            //    //{
+            //    //PhotonNetwork.JoinRoom(friendInfo.Room);
+            //    //}
+            //}
+        }
+
+        public static Rect dropDownRect2 = new Rect(820f, 0f, 200f, 300f);
+        private static bool showItemList;
+        private static int selectedItem;
+        private static Vector2 scrollViewVector;
+
+        private static void spawnItemMenu()
+        {
+            if (GUI.Toggle(new Rect(1120f, 325f, 200f, 20f), showItemList, "Show Item Spawner") != showItemList)
+            {
+                showItemList = !showItemList;
+            }
+
+            if (showItemList)
+            {
+                string[] allitems = Constants.allitems;
+                GUI.Label(new Rect(520f, 225f, 200f, 20f), "Item Spawner:");
+                scrollViewVector = GUI.BeginScrollView(new Rect(dropDownRect2.x - 100f, dropDownRect2.y + 25f, dropDownRect2.width, dropDownRect2.height), scrollViewVector, new Rect(0f, 0f, dropDownRect2.width, Mathf.Max(dropDownRect2.height, (float)(allitems.Length * 25))));
+                GUI.Box(new Rect(0f, 0f, dropDownRect2.width, Mathf.Max(dropDownRect2.height, (float)(allitems.Length * 25))), "");
+                for (int l = 0; l < allitems.Length; l++)
+                {
+                    if (GUI.Button(new Rect(0f, (float)(l * 25), dropDownRect2.height, 25f), ""))
+                    {
+                        selectedItem = l;
+                        if (PhotonNetwork.InRoom)
+                        {
+                            MyPlayer = Main.GetLocalPlayer();
+                            MelonLogger.Log(allitems[selectedItem].ToString());
+                            PhotonNetwork.Instantiate(allitems[selectedItem], MyPlayer.transform.position, Quaternion.identity, 0, null);
+                        }
+                    }
+                    GUI.Label(new Rect(5f, (float)(l * 25), dropDownRect2.height, 25f), allitems[l]);
+                }
+                GUI.EndScrollView();
+            }
         }
     }
 }

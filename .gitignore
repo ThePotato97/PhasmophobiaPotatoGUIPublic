@@ -2,7 +2,6 @@ obj/
 bin/
 .vs/
 Output/
-MelonLoader/
 *.exe
 *.dll
 .pdb
