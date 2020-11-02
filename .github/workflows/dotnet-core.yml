@@ -2,13 +2,10 @@ name: .NET Core
 
 on:
   push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
 
 jobs:
   build:
-    if: ${{ github.event.pull_request.head.repo.full_name == github.repository }} 
+    if: github.event.pull_request.head.repo.full_name == github.repository 
     runs-on: windows-latest
 
     steps:
