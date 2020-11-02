@@ -2,5 +2,5 @@
 	path = ImGui.NET
 	url = https://github.com/mellinoe/ImGui.NET.git
 [submodule "MelonLoader"]
-	path = MelonLoader
+	path = MelonLoaderForBuilding
 	url = https://github.com/ThePotato97/PhasmophobiaPotatoGUI
