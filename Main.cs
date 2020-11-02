@@ -150,10 +150,12 @@ namespace PhasmophobiaPotatoGUI
         public static List<DNAEvidence> dNAEvidences;
 
         // Token: 0x0400001D RID: 29
-        private bool ShowInfoPlayer = true;
+        public static bool ShowInfoPlayer = true;
 
         // Token: 0x0400001E RID: 30
-        private bool ShowInfoGhost = true;
+        public static bool ShowInfoGhost = true;
+
+        public static MissionManager missionManager;
 
         public async Task LoadObjectsTask()
         {
@@ -163,6 +165,8 @@ namespace PhasmophobiaPotatoGUI
                 await Task.Delay(4000);
                 if (SceneManager.sceneLoaded != null)
                 {
+                    Main.missionManager = GameObject.FindObjectOfType<MissionManager>();
+                    await Task.Delay(150);
                     Main.gameController = GameObject.FindObjectOfType<GameController>();
                     await Task.Delay(150);
                     Main.levelController = GameObject.FindObjectOfType<LevelController>();
@@ -388,7 +392,7 @@ namespace PhasmophobiaPotatoGUI
 
         // ghosttraits.type
 
-        private string GetGhostType(ValueTypePublicSealedObInBoStInBoInInInUnique.EnumNPublicSealedvanoSpWrPhPoBaJiMaReUnique type)
+        public static string GetGhostType(ValueTypePublicSealedObInBoStInBoInInInUnique.EnumNPublicSealedvanoSpWrPhPoBaJiMaReUnique type)
         {
             switch (type)
             {
@@ -554,47 +558,6 @@ namespace PhasmophobiaPotatoGUI
             }
         }
 
-        private void HUD()
-        {
-            GUI.color = Color.white;
-            GUI.Label(new Rect(10f, 70f, 150f, 20f), "Potato GUI (Public)");
-            if (ShowInfoPlayer)
-            {
-                //GUI.Label(new Rect(10f, 100f, 150f, 20f), "Name: " + PhotonNetwork.NickName.ToString());
-                //if (!PhotonNetwork.IsMasterClient)
-                //{
-                //    GUI.Label(new Rect(10f, 85f, 150f, 20f), "Master: " + PhotonNetwork.MasterClient.NickName.ToString());
-                //}
-                //if (PhotonNetwork.IsMasterClient)
-                //{
-                //    GUI.Label(new Rect(10f, 85f, 150f, 20f), "Master: You");
-                //}
-                if (Main.gameController != null)
-                {
-                    GUI.Label(new Rect(10f, 115f, 150f, 20f), "Hunted: " + Main.player.field_Public_Boolean_0.ToString());
-                    float sanity = (float)(Math.Round(Main.player.field_Public_Single_0 * 100f) / 100f);
-                    GUI.Label(new Rect(10f, 130f, 150f, 20f), "Sanity: " + (100 - sanity));
-                    GUI.Label(new Rect(10f, 145f, 150f, 20f), "Current Room: " + LevelController.field_Public_Static_LevelController_0.field_Public_LevelRoom_2.field_Public_String_0);
-                }
-            }
-            if (ShowInfoGhost)
-            {
-                //-------------------------------------------------------------------------------------------\\
-                if (ghostAI != null)
-                {
-                    GUI.Label(new Rect(10f, 400f, 150f, 20f), "Ghost Age: " + Main.ghostInfo.field_Public_ValueTypePublicSealedObInBoStInBoInInInUnique_0.field_Public_Int32_0.ToString());
-                    GUI.Label(new Rect(10f, 415f, 850f, 20f), "Ghost Name: " + (Main.ghostInfo.field_Public_ValueTypePublicSealedObInBoStInBoInInInUnique_0.field_Public_String_0.ToString()) + (Main.ghostInfo.field_Public_ValueTypePublicSealedObInBoStInBoInInInUnique_0.field_Public_Boolean_1 ? " (Shy)" : ""));
-                    GUI.Label(new Rect(10f, 430f, 850f, 20f), "Ghost Type: " + GetGhostType(Main.ghostInfo.field_Public_ValueTypePublicSealedObInBoStInBoInInInUnique_0.field_Public_EnumNPublicSealedvanoSpWrPhPoBaJiMaReUnique_0));
-                    GUI.Label(new Rect(10f, 460f, 150f, 20f), "Ghost Gender: " + (Main.ghostInfo.field_Public_ValueTypePublicSealedObInBoStInBoInInInUnique_0.field_Public_Boolean_0 ? "Male" : "Female"));
-                    GUI.Label(new Rect(10f, 475f, 150f, 20f), "Favorite Room: " + Main.ghostInfo.field_Public_LevelRoom_0.field_Public_String_0);
-                    GUI.Label(new Rect(10f, 490f, 150f, 20f), "Current Room: " + LevelController.field_Public_Static_LevelController_0.field_Public_LevelRoom_1.field_Public_String_0);
-                    GUI.Label(new Rect(10f, 505f, 150f, 20f), "Can Hunt: " + Main.ghostAI.field_Public_Boolean_2.ToString());
-                    GUI.Label(new Rect(10f, 520f, 150f, 20f), "Hunting: " + Main.ghostAI.field_Public_Boolean_3.ToString());
-                }
-            }
-            //--------------------------------------------------------------------------------------------\\
-        }
-
         // Token: 0x04000033 RID: 51
 
         // Token: 0x04000034 RID: 52
@@ -611,62 +574,8 @@ namespace PhasmophobiaPotatoGUI
 
         private Player MyPlayer;
 
-        private void ShitIStoleFromYude2000()
+        private void RoomGUI()
         {
-            string[] allitems = new string[]
-        {
-                "BasementKey",
-                "CarKey",
-                "GarageKey",
-                "MainKey",
-                "Blacklight Flashlight",
-                "Glowstick",
-                "Flashlight",
-                "StrongFlashlight",
-                "EMF Reader",
-                "EVP Recorder",
-                "Thermometer",
-                "IR Light Sensor",
-                "Motion Sensor",
-                "SoundSensor",
-                "Ghost Writing Book",
-                "Parabolic Microphone",
-                "DSLRCamera",
-                "Tripod",
-                "Head Mounted Camera",
-                "Candle",
-                "Crucifix",
-                "Lighter",
-                "SaltShaker",
-                "Bone",
-                "Ouija board",
-                "PainKillers",
-                "WhiteSage",
-                "Hellephant",
-                "Hanging Body",
-                "monsterprefab",
-                "WiccanAltar",
-                "ZomBear",
-                "ZomBunny",
-                "ButcherKnife",
-                "HumanSkull",
-                "VHS Tape",
-                "TarotCardBox",
-                "VoodooDoll",
-                "Bug",
-                "GhostOrb",
-                "EMF Spot",
-                "Footstep",
-                "PhotoPaper",
-                "Noise Spot",
-                "SaltSpot",
-                "SanitySoundSpot",
-                "TornCloth",
-                "Camera",
-                "Walkie Talkie",
-                "BoxFlashPrefab",
-        };
-
             if (!PhotonNetwork.InRoom)
             {
                 GUI.Label(new Rect(720f, 0f, 200f, 20f), "Custom Room Creator:");
@@ -705,6 +614,10 @@ namespace PhasmophobiaPotatoGUI
                     }
                 }
             }
+        }
+
+        private void ShitIStoleFromYude2000()
+        {
             if (Main.levelController != null)
             {
                 if (GUI.Button(new Rect(520f, 120f, 200f, 20f), "Random Event") && Main.ghostAI != null)
@@ -827,6 +740,7 @@ namespace PhasmophobiaPotatoGUI
 
                 if (this.showItemList)
                 {
+                    string[] allitems = Constants.allitems;
                     GUI.Label(new Rect(520f, 225f, 200f, 20f), "Item Spawner:");
                     this.scrollViewVector = GUI.BeginScrollView(new Rect(this.dropDownRect2.x - 100f, this.dropDownRect2.y + 25f, this.dropDownRect2.width, this.dropDownRect2.height), this.scrollViewVector, new Rect(0f, 0f, this.dropDownRect2.width, Mathf.Max(this.dropDownRect2.height, (float)(allitems.Length * 25))));
                     GUI.Box(new Rect(0f, 0f, this.dropDownRect2.width, Mathf.Max(this.dropDownRect2.height, (float)(allitems.Length * 25))), "");
@@ -850,32 +764,32 @@ namespace PhasmophobiaPotatoGUI
                 GUI.Label(new Rect(920f, 295f, 200f, 20f), "ESP:");
                 if (GUI.Toggle(new Rect(920f, 320f, 200f, 20f), this.GhostESP, "Ghost") != this.GhostESP)
                 {
-                    this.GhostESP = !this.GhostESP;
+                    GhostESP = !GhostESP;
                 }
                 if (GUI.Toggle(new Rect(920f, 370f, 200f, 20f), this.PlayerESP, "Player") != this.PlayerESP)
                 {
-                    this.PlayerESP = !this.PlayerESP;
+                    PlayerESP = !PlayerESP;
                 }
                 if (GUI.Toggle(new Rect(920f, 395f, 200f, 20f), this.OuijaESP, "Ouija Board") != this.OuijaESP)
                 {
-                    this.OuijaESP = !this.OuijaESP;
+                    OuijaESP = !OuijaESP;
                 }
                 if (GUI.Toggle(new Rect(920f, 420f, 200f, 20f), this.KeyESP, "Key") != this.KeyESP)
                 {
-                    this.KeyESP = !this.KeyESP;
+                    KeyESP = !KeyESP;
                 }
-                if (GUI.Toggle(new Rect(920f, 445f, 200f, 20f), this.EvidenceESP, "Evidence") != this.EvidenceESP)
+                if (GUI.Toggle(new Rect(920f, 445f, 200f, 20f), EvidenceESP, "Evidence") != this.EvidenceESP)
                 {
-                    this.EvidenceESP = !this.EvidenceESP;
+                    EvidenceESP = !EvidenceESP;
                 }
 
-                if (GUI.Toggle(new Rect(1120f, 300f, 200f, 20f), this.ShowInfoGhost, "Show Ghost Info") != this.ShowInfoGhost)
+                if (GUI.Toggle(new Rect(1120f, 300f, 200f, 20f), ShowInfoGhost, "Show Ghost Info") != ShowInfoGhost)
                 {
-                    this.ShowInfoGhost = !this.ShowInfoGhost;
+                    ShowInfoGhost = !ShowInfoGhost;
                 }
-                if (GUI.Toggle(new Rect(1120f, 250f, 200f, 20f), this.ShowInfoPlayer, "Show Player Info") != this.ShowInfoPlayer)
+                if (GUI.Toggle(new Rect(1120f, 250f, 200f, 20f), ShowInfoPlayer, "Show Player Info") != ShowInfoPlayer)
                 {
-                    this.ShowInfoPlayer = !this.ShowInfoPlayer;
+                    ShowInfoPlayer = !ShowInfoPlayer;
                 }
             }
             if (Main.levelController == null)
@@ -929,11 +843,13 @@ namespace PhasmophobiaPotatoGUI
         private string Name;
         private Vector2 scrollViewVector;
 
+        public static bool showMissionInfo = true;
+
         public override void OnGUI()
         {
             if (guiEnabled)
             {
-                HUD();
+                HUD.DrawHUD();
                 BoneESP();
                 OuijaESPFunc();
                 GhostESPFunc();
@@ -945,6 +861,70 @@ namespace PhasmophobiaPotatoGUI
                     ShitIStoleFromYude2000();
                 }
             }
+        }
+    }
+
+    public class HUD : MelonMod
+    {
+        public static void DrawHUD()
+        {
+            WaterMark();
+            if (Main.ShowInfoGhost)
+            {
+                ghostInfo();
+            }
+            if (Main.showMissionInfo)
+            {
+                missionInfo();
+            }
+            if (Main.ShowInfoPlayer)
+            {
+                playerInfo();
+            }
+        }
+
+        private static void WaterMark()
+        {
+            GUI.color = Color.white;
+            GUI.Label(new Rect(10f, 70f, 150f, 20f), "Potato GUI (Public)");
+        }
+
+        private static void ghostInfo()
+        {
+            if (Main.ShowInfoGhost)
+            {
+                if (Main.ghostAI != null)
+                {
+                    GUI.Label(new Rect(10f, 400f, 150f, 20f), "Ghost Age: " + Main.ghostInfo.field_Public_ValueTypePublicSealedObInBoStInBoInInInUnique_0.field_Public_Int32_0.ToString());
+                    GUI.Label(new Rect(10f, 415f, 850f, 20f), "Ghost Name: " + (Main.ghostInfo.field_Public_ValueTypePublicSealedObInBoStInBoInInInUnique_0.field_Public_String_0.ToString()) + (Main.ghostInfo.field_Public_ValueTypePublicSealedObInBoStInBoInInInUnique_0.field_Public_Boolean_1 ? " (Shy)" : ""));
+                    GUI.Label(new Rect(10f, 430f, 850f, 20f), "Ghost Type: " + Main.GetGhostType(Main.ghostInfo.field_Public_ValueTypePublicSealedObInBoStInBoInInInUnique_0.field_Public_EnumNPublicSealedvanoSpWrPhPoBaJiMaReUnique_0));
+                    GUI.Label(new Rect(10f, 460f, 150f, 20f), "Ghost Gender: " + (Main.ghostInfo.field_Public_ValueTypePublicSealedObInBoStInBoInInInUnique_0.field_Public_Boolean_0 ? "Male" : "Female"));
+                    GUI.Label(new Rect(10f, 475f, 150f, 20f), "Favorite Room: " + Main.ghostInfo.field_Public_LevelRoom_0.field_Public_String_0);
+                    GUI.Label(new Rect(10f, 490f, 150f, 20f), "Current Room: " + LevelController.field_Public_Static_LevelController_0.field_Public_LevelRoom_1.field_Public_String_0);
+                    GUI.Label(new Rect(10f, 505f, 150f, 20f), "Can Hunt: " + Main.ghostAI.field_Public_Boolean_2.ToString());
+                    GUI.Label(new Rect(10f, 520f, 150f, 20f), "Hunting: " + Main.ghostAI.field_Public_Boolean_3.ToString());
+                }
+            }
+        }
+
+        private static void missionInfo()
+        {
+            if (Main.showMissionInfo)
+            {
+                GUI.Label(new Rect(1010f, 430f, 850f, 20f), "Hunting: " + Main.ghostAI.field_Public_Boolean_3.ToString());
+                GUI.Label(new Rect(1010f, 450f, 850f, 20f), Main.missionManager.mainMissionText.text.ToString());
+                GUI.Label(new Rect(1010f, 470f, 850f, 20f), Main.missionManager.sideMissionText.text.ToString());
+                GUI.Label(new Rect(1010f, 490f, 850f, 20f), Main.missionManager.side2MissionText.text.ToString());
+                GUI.Label(new Rect(1010f, 510f, 850f, 20f), Main.missionManager.hiddenMissionText.text.ToString());
+            }
+        }
+
+        private static void playerInfo()
+        {
+            GUI.Label(new Rect(10f, 115f, 150f, 20f), "Hunted: " + Main.player.field_Public_Boolean_0.ToString());
+            float sanity = (float)(Math.Round(Main.player.field_Public_Single_0 * 100f) / 100f);
+            GUI.Label(new Rect(10f, 130f, 150f, 20f), "Sanity: " + (100 - sanity));
+            GUI.Label(new Rect(10f, 145f, 150f, 20f), "Current Room: " + LevelController.field_Public_Static_LevelController_0.field_Public_LevelRoom_2.field_Public_String_0);
         }
     }
 }
