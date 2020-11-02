@@ -11,7 +11,7 @@ jobs:
 
     runs-on: windows-latest
     if: |
-      ((github.event_name == 'push' && github.repository == 'ThePotato97/PhasmophobiaPotatoGUIPublic') || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == 'ThePotato97/PhasmophobiaPotatoGUIPublic')) && !contains(github.event.head_commit.message, 'skip ci')
+      ((github.event_name == 'push' && github.repository == 'ThePotato97/PhasmophobiaPotatoGUIPublic') || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == 'ThePotato97/PhasmophobiaPotatoGUIPublic')) && !contains(github.event.head_commit.message, 'skip compile')
     steps:
     - uses: actions/checkout@v2
       with:
