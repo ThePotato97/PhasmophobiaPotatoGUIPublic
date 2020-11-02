@@ -1,9 +1,4 @@
 ﻿using MelonLoader;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace PhasmophobiaPotatoGUI
@@ -27,6 +22,14 @@ namespace PhasmophobiaPotatoGUI
             if (Menu.EvidenceESP)
             {
                 BoneESP();
+            }
+            if (Menu.PlayerESP)
+            {
+                PlayerESPFunc();
+            }
+            if (Menu.FuseboxESP)
+            {
+                FuseBoxESPFunc();
             }
         }
 
@@ -122,5 +125,21 @@ namespace PhasmophobiaPotatoGUI
                 }
             }
         }
+        private static void FuseBoxESPFunc()
+        {
+            if (Main.fuseBox != null)
+            {
+
+                Vector3 fuseBoxPos = Camera.main.WorldToScreenPoint(Main.fuseBox.transform.position);
+                if (fuseBoxPos.z > 0f)
+                {
+                    fuseBoxPos.y = (float)Screen.height - (fuseBoxPos.y + 1f);
+                    GUI.color = Color.green;
+                    GUI.Label(new Rect(new Vector2(fuseBoxPos.x, fuseBoxPos.y), new Vector2(100f, 100f)), "Fusebox");
+                }
+
+            }
+        }
+
     }
 }

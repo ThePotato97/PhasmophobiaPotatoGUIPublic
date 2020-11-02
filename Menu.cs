@@ -1,10 +1,5 @@
 ﻿using MelonLoader;
 using Photon.Pun;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -207,12 +202,16 @@ namespace PhasmophobiaPotatoGUI
         }
 
         public static bool GhostESP = true;
+
         public static bool PlayerESP = true;
 
         public static bool KeyESP = true;
 
         public static bool OuijaESP = true;
+
         public static bool EvidenceESP = true;
+
+        public static bool FuseboxESP = true;
 
         public static bool ShowInfoGhost = true;
 
