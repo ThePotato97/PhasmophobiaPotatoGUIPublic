@@ -18,7 +18,7 @@ namespace PhasmophobiaPotatoGUI
 {
     public class Main : MelonMod
     {
-        public string luigiBoardName;
+        public static string luigiBoardName;
         public bool guiEnabled = true;
         public bool menuEnabled;
         public float reach;
@@ -146,9 +146,6 @@ namespace PhasmophobiaPotatoGUI
         // Token: 0x0400001D RID: 29
         public static bool ShowInfoPlayer = true;
 
-        // Token: 0x0400001E RID: 30
-        public static bool ShowInfoGhost = true;
-
         public static MissionManager missionManager;
 
         public async Task LoadObjectsTask()
@@ -246,25 +243,6 @@ namespace PhasmophobiaPotatoGUI
             {
                 Task.Run(() => LoadObjectsTask());
                 break;
-            }
-        }
-
-        // bypass stupid MelonLoader checks
-        [HarmonyPatch(typeof(MLDetection.MLDetectionCheck), "Check")]
-        private class MLCheckPatch
-        {
-            private static bool Prefix()
-            {
-                return false;
-            }
-        }
-
-        [HarmonyPatch(typeof(MLDetection.MLDetectionCheck), "Start")]
-        private class MLStartPatch
-        {
-            private static bool Prefix()
-            {
-                return false;
             }
         }
 
@@ -459,20 +437,6 @@ namespace PhasmophobiaPotatoGUI
             }
         }
 
-        private bool GhostESP = true;
-
-        // Token: 0x04000012 RID: 18
-        private bool PlayerESP = true;
-
-        // Token: 0x04000013 RID: 19
-        private bool KeyESP = true;
-
-        // Token: 0x04000014 RID: 20
-        private bool OuijaESP = true;
-
-        // Token: 0x04000015 RID: 21
-        private bool EvidenceESP = true;
-
         //private string roomName;
         //private string steamID;
         private bool isPrivateServer;
@@ -480,102 +444,6 @@ namespace PhasmophobiaPotatoGUI
         private string serverName;
         private float serverSlots;
         //private bool antikick;
-
-        private void GhostESPFunc()
-        {
-            if (gameController != null && ghostAI != null)
-            {
-                if (GhostESP)
-                {
-                    foreach (GhostAI ghostAI in ghosts)
-                    {
-                        Vector3 vector = Camera.main.WorldToScreenPoint(ghostAI.transform.position);
-                        if (vector.z > 0f)
-                        {
-                            vector.y = (float)Screen.height - (vector.y + 1f);
-                            GUI.color = Color.red;
-                            GUI.DrawTexture(new Rect(new Vector2(vector.x, vector.y), new Vector2(5f, 5f)), Texture2D.whiteTexture, 0);
-                            GUI.Label(new Rect(new Vector2(vector.x, vector.y), new Vector2(100f, 100f)), ghostInfo.field_Public_ValueTypePublicSealedObInBoStInBoInInInUnique_0.field_Public_EnumNPublicSealedvanoSpWrPhPoBaJiMaReUnique_0.ToString());
-                        }
-                    }
-                }
-            }
-        }
-
-        private void PlayerESPFunc()
-        {
-            if (PlayerESP)
-            {
-                Player[] players = UnityEngine.Object.FindObjectsOfType<Player>();
-
-                foreach (Player player in players)
-                {
-                    UnityEngine.Object playerObject = player;
-
-                    MelonLogger.Log("Drawing ESP for " + player.field_Public_PhotonView_0.owner.NickName);
-
-                    Vector3 vector2 = Camera.main.WorldToScreenPoint(player.transform.position);
-                    if (vector2.z > 0f)
-                    {
-                        vector2.y = (float)Screen.height - (vector2.y + 1f);
-                        GUI.color = Color.green;
-                        GUI.DrawTexture(new Rect(new Vector2(vector2.x, vector2.y), new Vector2(5f, 5f)), Texture2D.whiteTexture, 0);
-                        GUI.Label(new Rect(new Vector2(vector2.x, vector2.y), new Vector2(100f, 100f)), player.field_Public_PhotonView_0.owner.NickName);
-                    }
-                }
-            }
-        }
-
-        private void KeyESPFunc()
-        {
-            if (keys != null && KeyESP)
-            {
-                foreach (Key key in keys)
-                {
-                    Vector3 vector3 = Camera.main.WorldToScreenPoint(key.transform.position);
-                    if (vector3.z > 0f)
-                    {
-                        vector3.y = (float)Screen.height - (vector3.y + 1f);
-                        GUI.color = Color.cyan;
-                        GUI.Label(new Rect(new Vector2(vector3.x, vector3.y), new Vector2(100f, 100f)), key.field_Public_EnumNPublicSealedvamabagaCano6vUnique_0.ToString() + " Key");
-                    }
-                }
-            }
-        }
-
-        private void OuijaESPFunc()
-        {
-            if (ouijaBoard != null && OuijaESP)
-            {
-                foreach (OuijaBoard ouijaBoard in ouijaBoards)
-                {
-                    Vector3 vector5 = Camera.main.WorldToScreenPoint(ouijaBoard.transform.position);
-                    if (vector5.z > 0f)
-                    {
-                        vector5.y = (float)Screen.height - (vector5.y + 1f);
-                        GUI.color = Color.yellow;
-                        GUI.Label(new Rect(new Vector2(vector5.x, vector5.y), new Vector2(100f, 100f)), luigiBoardName + " Board");
-                    }
-                }
-            }
-        }
-
-        private void BoneESP()
-        {
-            if (dNAEvidences != null && EvidenceESP)
-            {
-                foreach (DNAEvidence dnaevidence in dNAEvidences)
-                {
-                    Vector3 vector4 = Camera.main.WorldToScreenPoint(dnaevidence.transform.position);
-                    if (vector4.z > 0f)
-                    {
-                        vector4.y = (float)Screen.height - (vector4.y + 1f);
-                        GUI.color = Color.magenta;
-                        GUI.Label(new Rect(new Vector2(vector4.x, vector4.y), new Vector2(100f, 100f)), "Evidence");
-                    }
-                }
-            }
-        }
 
         // Token: 0x04000033 RID: 51
 
@@ -634,374 +502,20 @@ namespace PhasmophobiaPotatoGUI
             }
         }
 
-        private void ShitIStoleFromYude2000()
-        {
-            if (Main.levelController != null)
-            {
-                GUI.Label(new Rect(920f, 295f, 200f, 20f), "ESP:");
-                if (GUI.Toggle(new Rect(920f, 320f, 200f, 20f), GhostESP, "Ghost") != GhostESP)
-                {
-                    GhostESP = !GhostESP;
-                }
-                if (GUI.Toggle(new Rect(920f, 370f, 200f, 20f), PlayerESP, "Player") != PlayerESP)
-                {
-                    PlayerESP = !PlayerESP;
-                }
-                if (GUI.Toggle(new Rect(920f, 395f, 200f, 20f), OuijaESP, "Ouija Board") != OuijaESP)
-                {
-                    OuijaESP = !OuijaESP;
-                }
-                if (GUI.Toggle(new Rect(920f, 420f, 200f, 20f), KeyESP, "Key") != KeyESP)
-                {
-                    KeyESP = !KeyESP;
-                }
-                if (GUI.Toggle(new Rect(920f, 445f, 200f, 20f), EvidenceESP, "Evidence") != EvidenceESP)
-                {
-                    EvidenceESP = !EvidenceESP;
-                }
-
-                if (GUI.Toggle(new Rect(1120f, 300f, 200f, 20f), ShowInfoGhost, "Show Ghost Info") != ShowInfoGhost)
-                {
-                    ShowInfoGhost = !ShowInfoGhost;
-                }
-                if (GUI.Toggle(new Rect(1120f, 250f, 200f, 20f), ShowInfoPlayer, "Show Player Info") != ShowInfoPlayer)
-                {
-                    ShowInfoPlayer = !ShowInfoPlayer;
-                }
-            }
-            if (Main.levelController == null)
-            {
-                if (GUI.Toggle(new Rect(1120f, 325f, 200f, 20f), showItemList, "Show Item Spawner") != showItemList)
-                {
-                    showItemList = !showItemList;
-                }
-
-                if (showItemList)
-                {
-                    string[] allitems = Constants.allitems;
-                    GUI.Label(new Rect(520f, 225f, 200f, 20f), "Item Spawner:");
-                    scrollViewVector = GUI.BeginScrollView(new Rect(dropDownRect.x - 100f, dropDownRect.y + 25f, dropDownRect.width, dropDownRect.height), scrollViewVector, new Rect(0f, 0f, dropDownRect.width, Mathf.Max(dropDownRect.height, (float)(allitems.Length * 25))));
-                    GUI.Box(new Rect(0f, 0f, dropDownRect.width, Mathf.Max(dropDownRect.height, (float)(allitems.Length * 25))), "");
-                    for (int l = 0; l < allitems.Length; l++)
-                    {
-                        if (GUI.Button(new Rect(0f, (float)(l * 25), dropDownRect.height, 25f), ""))
-                        {
-                            selecteditem = l;
-                            if (PhotonNetwork.InRoom)
-                            {
-                                MyPlayer = GetLocalPlayer();
-                                MelonLogger.Log(allitems[selecteditem].ToString());
-                                PhotonNetwork.Instantiate(allitems[selecteditem], MyPlayer.transform.position, Quaternion.identity, 0, null);
-                            }
-                        }
-                        GUI.Label(new Rect(5f, (float)(l * 25), dropDownRect.height, 25f), allitems[l]);
-                    }
-                    GUI.EndScrollView();
-                }
-            }
-        }
-
         private Vector2 scrollViewVector;
-
-        public static bool showMissionInfo = true;
 
         public override void OnGUI()
         {
             if (guiEnabled)
             {
                 HUD.DrawHUD();
-                BoneESP();
-                OuijaESPFunc();
-                GhostESPFunc();
-                KeyESPFunc();
+                ESPMethods.drawESP();
                 //PlayerESPFunc();
 
                 if (menuEnabled)
                 {
-                    ShitIStoleFromYude2000();
+                    Menu.drawMenu();
                 }
-            }
-        }
-    }
-
-    public class HUD : MelonMod
-    {
-        public static void DrawHUD()
-        {
-            WaterMark();
-            if (Main.ghostInfo != null && Main.ShowInfoGhost)
-            {
-                ghostInfo();
-            }
-            if (Main.missionManager != null && Main.ghostAI != null && Main.showMissionInfo)
-            {
-                missionInfo();
-            }
-            if (Main.player != null && LevelController.field_Public_Static_LevelController_0 != null && Main.ShowInfoPlayer)
-            {
-                playerInfo();
-            }
-        }
-
-        private static void WaterMark()
-        {
-            GUI.color = Color.white;
-            GUI.Label(new Rect(10f, 70f, 150f, 20f), "Potato GUI (Public)");
-        }
-
-        private static void ghostInfo()
-        {
-            GUI.Label(new Rect(10f, 400f, 150f, 20f), "Ghost Age: " + Main.ghostInfo.field_Public_ValueTypePublicSealedObInBoStInBoInInInUnique_0.field_Public_Int32_0.ToString());
-            GUI.Label(new Rect(10f, 415f, 850f, 20f), "Ghost Name: " + (Main.ghostInfo.field_Public_ValueTypePublicSealedObInBoStInBoInInInUnique_0.field_Public_String_0.ToString()) + (Main.ghostInfo.field_Public_ValueTypePublicSealedObInBoStInBoInInInUnique_0.field_Public_Boolean_1 ? " (Shy)" : ""));
-            GUI.Label(new Rect(10f, 430f, 850f, 20f), "Ghost Type: " + Main.GetGhostType(Main.ghostInfo.field_Public_ValueTypePublicSealedObInBoStInBoInInInUnique_0.field_Public_EnumNPublicSealedvanoSpWrPhPoBaJiMaReUnique_0));
-            GUI.Label(new Rect(10f, 460f, 150f, 20f), "Ghost Gender: " + (Main.ghostInfo.field_Public_ValueTypePublicSealedObInBoStInBoInInInUnique_0.field_Public_Boolean_0 ? "Male" : "Female"));
-            GUI.Label(new Rect(10f, 475f, 150f, 20f), "Favorite Room: " + Main.ghostInfo.field_Public_LevelRoom_0.field_Public_String_0);
-            GUI.Label(new Rect(10f, 490f, 150f, 20f), "Current Room: " + LevelController.field_Public_Static_LevelController_0.field_Public_LevelRoom_1.field_Public_String_0);
-            GUI.Label(new Rect(10f, 505f, 150f, 20f), "Can Hunt: " + Main.ghostAI.field_Public_Boolean_2.ToString());
-            GUI.Label(new Rect(10f, 520f, 150f, 20f), "Hunting: " + Main.ghostAI.field_Public_Boolean_3.ToString());
-        }
-
-        private static void missionInfo()
-        {
-            GUI.Label(new Rect(2010f, 450f, 850f, 20f), Main.missionManager.mainMissionText.text.ToString());
-            GUI.Label(new Rect(2010f, 470f, 850f, 20f), Main.missionManager.sideMissionText.text.ToString());
-            GUI.Label(new Rect(2010f, 490f, 850f, 20f), Main.missionManager.side2MissionText.text.ToString());
-            GUI.Label(new Rect(2010f, 510f, 850f, 20f), Main.missionManager.hiddenMissionText.text.ToString());
-        }
-
-        private static void playerInfo()
-        {
-            GUI.Label(new Rect(10f, 115f, 150f, 20f), "Hunted: " + Main.player.field_Public_Boolean_0.ToString());
-            float sanity = (float)(Math.Round(Main.player.field_Public_Single_0 * 100f) / 100f);
-            GUI.Label(new Rect(10f, 130f, 150f, 20f), "Sanity: " + (100 - sanity));
-            GUI.Label(new Rect(10f, 145f, 150f, 20f), "Current Room: " + LevelController.field_Public_Static_LevelController_0.field_Public_LevelRoom_2.field_Public_String_0);
-        }
-    }
-
-    public class Menu : MelonMod
-    {
-        public static void drawMenu()
-        {
-            ghostActions();
-            lobbyActions();
-            if (showItemList)
-            {
-                spawnItemMenu();
-            }
-        }
-
-        private static void ghostActions()
-        {
-            if (GUI.Button(new Rect(520f, 120f, 200f, 20f), "Random Event") && Main.ghostAI != null)
-            {
-                Main.ghostAI.field_Public_GhostActivity_0.InteractWithARandomDoor();
-                Main.ghostAI.field_Public_GhostActivity_0.InteractWithARandomProp();
-                Main.ghostAI.field_Public_GhostActivity_0.Interact();
-                Main.ghostAI.RandomEvent();
-            }
-
-            //if (GUI.Button(new Rect(520f, 120f, 200f, 20f), "Sound"))
-            //{
-            //    Main.ghostAudio.PlaySound(1, false, false);
-            //    Main.ghostAudio.PlaySound(0, false, false);
-
-            //    Main.ghostInteraction.GetComponent<PhotonView>().RPC("SpawnFootstepNetworked", 0, new Il2CppSystem.Object[]
-            //    {
-            //        ghostAI.transform.position,
-            //        ghostAI.transform.rotation,
-            //        new Il2CppSystem.Int32(){ m_value = UnityEngine.Random.Range(0, 3) }.BoxIl2CppObject()
-            //    });
-            //}
-
-            if (GUI.Button(new Rect(520f, 145f, 200f, 20f), "Wander"))
-            {
-                Main.ghostAI.field_Public_Boolean_6 = true;
-                Main.ghostAI.field_Public_Animator_0.SetBool("isIdle", false);
-                Vector3 destination = Vector3.zero;
-                NavMeshHit navMeshHit;
-                if (NavMesh.SamplePosition(UnityEngine.Random.insideUnitSphere * 3f + Main.ghostAI.transform.position, out navMeshHit, 3f, 1))
-                {
-                    destination = navMeshHit.position;
-                }
-                Main.ghostAI.field_Public_NavMeshAgent_0.destination = destination;
-                Main.ghostAI.ChangeState((GhostAI.EnumNPublicSealedvaidwahufalidothfuapUnique)1, null, null);
-                Main.ghostAI.field_Public_PhotonView_0.RPC("Hunting", 0, new Il2CppSystem.Object[]
-                {
-                        new Il2CppSystem.Boolean().BoxIl2CppObject()
-                });
-                Main.ghostAI.field_Public_PhotonView_0.RPC("SyncChasingPlayer", 0, new Il2CppSystem.Object[]
-                {
-                        new Il2CppSystem.Boolean().BoxIl2CppObject()
-                });
-            }
-            if (GUI.Button(new Rect(520f, 170f, 200f, 20f), "Hunt"))
-            {
-                SetupPhaseController.field_Public_Static_SetupPhaseController_0.field_Public_Boolean_0 = false;
-                Main.ghostAI.field_Public_Boolean_4 = true;
-                Main.ghostAI.field_Public_Boolean_2 = true;
-                Main.ghostAI.field_Public_Animator_0.SetBool("isIdle", false);
-                Main.ghostAI.field_Public_Animator_0.SetInteger("WalkType", 1);
-                Main.ghostAI.field_Public_NavMeshAgent_0.speed = Main.ghostAI.field_Public_Single_0;
-                Main.ghostAI.field_Public_GhostInteraction_0.CreateAppearedEMF(Main.ghostAI.transform.position);
-                Vector3 destination2 = Vector3.zero;
-                float num = UnityEngine.Random.Range(2f, 15f);
-
-                NavMeshHit navMeshHit2;
-
-                if (NavMesh.SamplePosition(UnityEngine.Random.insideUnitSphere * num + Main.ghostAI.transform.position, out navMeshHit2, num, 1))
-                {
-                    destination2 = navMeshHit2.position;
-                }
-                else
-                {
-                    destination2 = Vector3.zero;
-                }
-                Main.ghostAI.field_Public_NavMeshAgent_0.SetDestination(destination2);
-                SetupPhaseController.field_Public_Static_SetupPhaseController_0.ForceEnterHuntingPhase();
-                Main.ghostAI.ChangeState((GhostAI.EnumNPublicSealedvaidwahufalidothfuapUnique)2, null, null);
-                Main.ghostAI.field_Public_PhotonView_0.RPC("Hunting", 0, new Il2CppSystem.Object[]
-                {
-                        new Il2CppSystem.Boolean(){ m_value = true}.BoxIl2CppObject()
-                });
-                Main.ghostAI.field_Public_PhotonView_0.RPC("SyncChasingPlayer", 0, new Il2CppSystem.Object[]
-                {
-                        new Il2CppSystem.Boolean(){ m_value = true}.BoxIl2CppObject()
-                });
-            }
-            if (GUI.Button(new Rect(520f, 195f, 200f, 20f), "Idle"))
-            {
-                Main.ghostAI.field_Public_Animator_0.SetInteger("IdleNumber", UnityEngine.Random.Range(0, 2));
-                Main.ghostAI.field_Public_Animator_0.SetBool("isIdle", true);
-                Main.ghostAI.UnAppear(false);
-                Main.ghostAI.field_Public_GhostAudio_0.TurnOnOrOffAppearSource(false);
-                Main.ghostAI.field_Public_GhostAudio_0.PlayOrStopAppearSource(false);
-                Main.ghostAI.ChangeState(0, null, null);
-                Main.ghostAI.field_Public_PhotonView_0.RPC("Hunting", 0, new Il2CppSystem.Object[]
-                {
-                        new Il2CppSystem.Boolean().BoxIl2CppObject()
-                });
-                Main.ghostAI.field_Public_PhotonView_0.RPC("SyncChasingPlayer", 0, new Il2CppSystem.Object[]
-                {
-                        new Il2CppSystem.Boolean().BoxIl2CppObject()
-                });
-            }
-            Il2CppSystem.Int32 appearRand = new Il2CppSystem.Int32
-            {
-                m_value = UnityEngine.Random.Range(0, 3)
-            };
-
-            if (GUI.Button(new Rect(520f, 220f, 200f, 20f), "Appear"))
-            {
-                Main.ghostAI.field_Public_PhotonView_0.RPC("MakeGhostAppear", 0, new Il2CppSystem.Object[]
-                {
-                        new Il2CppSystem.Boolean(){ m_value = true}.BoxIl2CppObject(),
-                        new Il2CppSystem.Int32(){ m_value = UnityEngine.Random.Range(0, 3) }.BoxIl2CppObject()
-                });
-            }
-            if (GUI.Button(new Rect(520f, 245f, 200f, 20f), "Unappear"))
-            {
-                Main.ghostAI.field_Public_PhotonView_0.RPC("MakeGhostAppear", 0, new Il2CppSystem.Object[]
-                {
-                        new Il2CppSystem.Boolean().BoxIl2CppObject(),
-                        new Il2CppSystem.Int32(){ m_value = UnityEngine.Random.Range(0, 3) }.BoxIl2CppObject()
-                });
-            }
-        }
-
-        private static string playerNickName;
-        private static Player MyPlayer;
-        private static float playerReach;
-
-        private static void anywhereActions()
-        {
-            if (GUI.Toggle(new Rect(1120f, 325f, 200f, 20f), showItemList, "Show Item Spawner") != showItemList)
-            {
-                showItemList = !showItemList;
-            }
-        }
-
-        private static void lobbyActions()
-        {
-            GUI.SetNextControlName("changename");
-            playerNickName = GUI.TextArea(new Rect(320f, 25f, 200f, 20f), playerNickName);
-            if (GUI.Button(new Rect(320f, 45f, 200f, 20f), "Change Name"))
-            {
-                GUI.FocusControl("changename");
-                PhotonNetwork.NickName = playerNickName;
-            }
-
-            if (GUI.Button(new Rect(320f, 145f, 200f, 20f), "Force Start"))
-            {
-                Main.serverManager.StartGame();
-            }
-
-            if (GUI.Button(new Rect(520f, 50f, 200f, 20f), "Add 100$"))
-            {
-                FileBasedPrefs.SetInt("PlayersMoney", FileBasedPrefs.GetInt("PlayersMoney", 0) + 100);
-            }
-            if (GUI.Button(new Rect(520f, 75f, 200f, 20f), "Add 1 Level"))
-            {
-                FileBasedPrefs.SetInt("myTotalExp", FileBasedPrefs.GetInt("myTotalExp", 0) + 100);
-            }
-            playerReach = GUI.HorizontalSlider(new Rect(720f, 200f, 200f, 20f), (float)((int)playerReach), 1.6f, 16f);
-            GUI.Label(new Rect(520f, 175f, 200, 20f), "Reach: " + (int)playerReach);
-            if (GUI.Button(new Rect(720f, 225f, 200f, 20f), "Click to change reach"))
-            {
-                MyPlayer = Main.GetLocalPlayer();
-                MyPlayer.field_Public_PCPropGrab_0.field_Private_Single_0 = playerReach;
-                MelonLogger.Log(MyPlayer.field_Public_PCPropGrab_0.field_Private_Single_0);
-            }
-            //GUI.Label(new Rect(920f, 0f, 200f, 20f), "Join Room:");
-            //roomName = GUI.TextArea(new Rect(920f, 25f, 200f, 20f), roomName);
-            //steamID = GUI.TextArea(new Rect(920f, 50f, 200f, 20f), steamID);
-            //if (GUI.Button(new Rect(920f, 75f, 200f, 20f), "Join Room by Name"))
-            //{
-            //    PhotonNetwork.JoinRoom(roomName);
-            //}
-            //if (GUI.Button(new Rect(920f, 100f, 200f, 20f), "Join Room by ID"))
-            //{
-            //    object[] FriendIDList;
-
-            //    bool test = PhotonNetwork.FindFriends(new string[]
-            //    {
-            //            steamID
-            //    });
-            //    MelonLogger.Log("steamID = " + steamID);
-            //    //foreach (FriendInfo friendInfo in PhotonNetwork.Friends)
-            //    //{
-            //    //PhotonNetwork.JoinRoom(friendInfo.Room);
-            //    //}
-            //}
-        }
-
-        public static Rect dropDownRect2 = new Rect(820f, 0f, 200f, 300f);
-        private static bool showItemList;
-        private static int selectedItem;
-        private static Vector2 scrollViewVector;
-
-        private static void spawnItemMenu()
-        {
-            if (showItemList)
-            {
-                string[] allitems = Constants.allitems;
-                GUI.Label(new Rect(520f, 225f, 200f, 20f), "Item Spawner:");
-                scrollViewVector = GUI.BeginScrollView(new Rect(dropDownRect2.x - 100f, dropDownRect2.y + 25f, dropDownRect2.width, dropDownRect2.height), scrollViewVector, new Rect(0f, 0f, dropDownRect2.width, Mathf.Max(dropDownRect2.height, (float)(allitems.Length * 25))));
-                GUI.Box(new Rect(0f, 0f, dropDownRect2.width, Mathf.Max(dropDownRect2.height, (float)(allitems.Length * 25))), "");
-                for (int l = 0; l < allitems.Length; l++)
-                {
-                    if (GUI.Button(new Rect(0f, (float)(l * 25), dropDownRect2.height, 25f), ""))
-                    {
-                        selectedItem = l;
-                        if (PhotonNetwork.InRoom)
-                        {
-                            MyPlayer = Main.GetLocalPlayer();
-                            MelonLogger.Log(allitems[selectedItem].ToString());
-                            PhotonNetwork.Instantiate(allitems[selectedItem], MyPlayer.transform.position, Quaternion.identity, 0, null);
-                        }
-                    }
-                    GUI.Label(new Rect(5f, (float)(l * 25), dropDownRect2.height, 25f), allitems[l]);
-                }
-                GUI.EndScrollView();
             }
         }
     }

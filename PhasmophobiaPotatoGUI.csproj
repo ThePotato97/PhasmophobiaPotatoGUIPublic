@@ -260,8 +260,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AntiCheat.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="ESPMethods.cs" />
+    <Compile Include="HUD.cs" />
     <Compile Include="Main.cs" />
+    <Compile Include="Menu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
