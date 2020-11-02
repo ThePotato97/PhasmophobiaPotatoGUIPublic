@@ -3,20 +3,12 @@ using Photon.Pun;
 using Photon.Realtime;
 using System;
 using System.Collections.Generic;
-using System.Threading;
 using System.Linq;
-using UnityEngine;
-using UnityEngine.InputSystem;
-using System.Collections;
-using UnhollowerBaseLib;
-using System.Reflection;
-using Harmony;
-using UnityEngine.AI;
-using UnhollowerRuntimeLib;
-using UnityEngine.SceneManagement;
-using UnityEngine.Events;
 using System.Threading.Tasks;
-using UnityStandardAssets.Characters.FirstPerson;
+using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 [assembly: MelonInfo(typeof(PhasmophobiaPotatoGUI.Main), "PhasmophobiaPotatoGUI", "1.0", "github.com/ThePotato97")]
 [assembly: MelonGame("Kinetic Games", "Phasmophobia")]
@@ -28,6 +20,7 @@ namespace PhasmophobiaPotatoGUI
         public string luigiBoardName;
         public bool guiEnabled = true;
         public bool menuEnabled;
+        public float reach;
 
         public static ServerManager serverManager;
 
@@ -383,6 +376,12 @@ namespace PhasmophobiaPotatoGUI
             if (delete)
             {
                 guiEnabled = !guiEnabled;
+            }
+
+            bool print = kb.numpad0Key.wasPressedThisFrame;
+            if (print)
+            {
+                //insert print all assets here
             }
         }
 
@@ -800,9 +799,10 @@ namespace PhasmophobiaPotatoGUI
                         new Il2CppSystem.Boolean().BoxIl2CppObject()
                     });
                 }
-                Il2CppSystem.Int32 appearRand = new Il2CppSystem.Int32();
-
-                appearRand.m_value = UnityEngine.Random.Range(0, 3);
+                Il2CppSystem.Int32 appearRand = new Il2CppSystem.Int32
+                {
+                    m_value = UnityEngine.Random.Range(0, 3)
+                };
 
                 if (GUI.Button(new Rect(520f, 220f, 200f, 20f), "Appear"))
                 {
@@ -901,7 +901,14 @@ namespace PhasmophobiaPotatoGUI
                 {
                     FileBasedPrefs.SetInt("myTotalExp", FileBasedPrefs.GetInt("myTotalExp", 0) + 100);
                 }
-
+                this.reach = GUI.HorizontalSlider(new Rect(720f, 200f, 200f, 20f), (float)((int)this.reach), 1.6f, 16f);
+                GUI.Label(new Rect(520f, 175f, 200, 20f), "Reach: " + (int)this.reach);
+                if (GUI.Button(new Rect(720f, 225f, 200f, 20f), "Click to change reach"))
+                {
+                    MyPlayer = GetLocalPlayer();
+                    MyPlayer.field_Public_PCPropGrab_0.field_Private_Single_0 = this.reach;
+                    MelonLogger.Log(MyPlayer.field_Public_PCPropGrab_0.field_Private_Single_0);
+                }
                 //GUI.Label(new Rect(920f, 0f, 200f, 20f), "Join Room:");
                 //this.roomName = GUI.TextArea(new Rect(920f, 25f, 200f, 20f), this.roomName);
                 //this.steamID = GUI.TextArea(new Rect(920f, 50f, 200f, 20f), this.steamID);
@@ -923,6 +930,32 @@ namespace PhasmophobiaPotatoGUI
                 //    //PhotonNetwork.JoinRoom(friendInfo.Room);
                 //    //}
                 //}
+                if (GUI.Toggle(new Rect(1120f, 325f, 200f, 20f), this.showItemList, "Show Item Spawner") != this.showItemList)
+                {
+                    this.showItemList = !this.showItemList;
+                }
+
+                if (this.showItemList)
+                {
+                    GUI.Label(new Rect(520f, 225f, 200f, 20f), "Item Spawner:");
+                    this.scrollViewVector = GUI.BeginScrollView(new Rect(this.dropDownRect.x - 100f, this.dropDownRect.y + 25f, this.dropDownRect.width, this.dropDownRect.height), this.scrollViewVector, new Rect(0f, 0f, this.dropDownRect.width, Mathf.Max(this.dropDownRect.height, (float)(allitems.Length * 25))));
+                    GUI.Box(new Rect(0f, 0f, this.dropDownRect.width, Mathf.Max(this.dropDownRect.height, (float)(allitems.Length * 25))), "");
+                    for (int l = 0; l < allitems.Length; l++)
+                    {
+                        if (GUI.Button(new Rect(0f, (float)(l * 25), this.dropDownRect.height, 25f), ""))
+                        {
+                            this.selecteditem = l;
+                            if (PhotonNetwork.InRoom)
+                            {
+                                MyPlayer = GetLocalPlayer();
+                                MelonLogger.Log(allitems[this.selecteditem].ToString());
+                                PhotonNetwork.Instantiate(allitems[this.selecteditem], MyPlayer.transform.position, Quaternion.identity, 0, null);
+                            }
+                        }
+                        GUI.Label(new Rect(5f, (float)(l * 25), this.dropDownRect.height, 25f), allitems[l]);
+                    }
+                    GUI.EndScrollView();
+                }
             }
         }
 
