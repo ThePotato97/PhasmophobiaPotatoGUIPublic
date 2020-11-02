@@ -19,6 +19,7 @@ jobs:
         submodules: true 
         token: '${{ secrets.PAT }}'
     - name: Setup .NET Core
+      if: github.event.pull_request.head.repo.full_name == github.repository
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.301    
