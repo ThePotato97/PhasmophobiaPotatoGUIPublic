@@ -228,7 +228,7 @@ namespace PhasmophobiaPotatoGUI
 
         public static bool fullbrighttoggle = true;
 
-        private static void hudToggles()
+        public static void hudToggles()
         {
             GUI.Label(new Rect(920f, 295f, 200f, 20f), "ESP:");
             if (GUI.Toggle(new Rect(920f, 320f, 200f, 20f), GhostESP, "Ghost") != GhostESP)

@@ -1,9 +1,5 @@
 ﻿using MelonLoader;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace PhasmophobiaPotatoGUI
@@ -65,15 +61,18 @@ namespace PhasmophobiaPotatoGUI
 
         private static void PlayerInfo()
         {
-            if (Main.player != null)
-            {
-                GUI.Label(new Rect(10f, 115f, 150f, 20f), "Hunted: " + Main.player.field_Public_Boolean_0.ToString());
-                float sanity = (float)(Math.Round(Main.player.field_Public_Single_0 * 100f) / 100f);
-                GUI.Label(new Rect(10f, 130f, 150f, 20f), "Sanity: " + (100 - sanity));
-            }
+
             if (LevelController.field_Public_Static_LevelController_0 != null)
             {
                 GUI.Label(new Rect(10f, 145f, 150f, 20f), "Current Room: " + LevelController.field_Public_Static_LevelController_0.field_Public_LevelRoom_2.field_Public_String_0);
+                if (Main.player != null)
+                {
+
+
+                    GUI.Label(new Rect(10f, 115f, 150f, 20f), "Hunted: " + Main.player.field_Public_Boolean_0.ToString());
+                    float sanity = (float)(Math.Round(Main.player.field_Public_Single_0 * 100f) / 100f);
+                    GUI.Label(new Rect(10f, 130f, 150f, 20f), "Sanity: " + (100 - sanity));
+                }
             }
         }
     }
