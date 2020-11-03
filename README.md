@@ -18,4 +18,4 @@ Open ``PhasmophobiaPotatoGUI.sln`` and build.
 
 
 
-Phasmophobia is the trademark of  Kinetic Games	which is not associated with this project.
+Phasmophobia is a registered trademark of Kinetic Games.
