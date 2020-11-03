@@ -231,9 +231,9 @@ namespace PhasmophobiaPotatoGUI
             {
                 FileBasedPrefs.SetInt("myTotalExp", FileBasedPrefs.GetInt("myTotalExp", 0) + 100);
             }
-            playerReach = GUI.HorizontalSlider(new Rect(720f, 200f, 200f, 20f), (float)((int)playerReach), 1.6f, 16f);
-            GUI.Label(new Rect(520f, 175f, 200, 20f), "Reach: " + (int)playerReach);
-            if (GUI.Button(new Rect(720f, 225f, 200f, 20f), "Click to change reach"))
+            playerReach = GUI.HorizontalSlider(new Rect(320, 200f, 200f, 20f), (float)((int)playerReach), 1.6f, 16f);
+            GUI.Label(new Rect(10f, 160f, 200, 20f), "Reach: " + (int)playerReach);
+            if (GUI.Button(new Rect(320f, 225f, 200f, 20f), "Click to change reach"))
             {
                 MyPlayer = Main.GetLocalPlayer();
                 MyPlayer.field_Public_PCPropGrab_0.field_Private_Single_0 = playerReach;
