@@ -227,6 +227,11 @@ namespace PhasmophobiaPotatoGUI
                     Main.doors = Enumerable.ToList<Door>(GameObject.FindObjectsOfType<Door>());
                     await Task.Delay(150);
                     Main.lightSwitches = Enumerable.ToList<LightSwitch>(GameObject.FindObjectsOfType<LightSwitch>());
+                    await Task.Delay(150);
+                    if (myPlayer == null)
+                    {
+                        Main.myPlayer = GetLocalPlayer();
+                    }
                 }
             }
         }
@@ -360,18 +365,23 @@ namespace PhasmophobiaPotatoGUI
                 if (!menuEnabled)
                 {
                     GameObject.FindObjectOfType<Player>();
-                    MyPlayer = GetLocalPlayer();
                     Cursor.lockState = CursorLockMode.Confined;
                     Cursor.visible = false;
-                    MyPlayer.field_Public_FirstPersonController_0.enabled = true;
-                    MyPlayer.field_Public_Animator_0.SetFloat("speed", 0f);
+                    if (myPlayer != null)
+                    {
+                        myPlayer.field_Public_FirstPersonController_0.enabled = true;
+                        myPlayer.field_Public_Animator_0.SetFloat("speed", 0f);
+                    }
                 }
                 if (menuEnabled)
                 {
                     Cursor.lockState = CursorLockMode.None;
                     Cursor.visible = true;
-                    MyPlayer.field_Public_FirstPersonController_0.enabled = false;
-                    MyPlayer.field_Public_Animator_0.SetFloat("speed", 0f);
+                    if (myPlayer != null)
+                    {
+                        myPlayer.field_Public_FirstPersonController_0.enabled = false;
+                        myPlayer.field_Public_Animator_0.SetFloat("speed", 0f);
+                    }
                 }
             }
             bool delete = kb.deleteKey.wasPressedThisFrame;
@@ -458,7 +468,7 @@ namespace PhasmophobiaPotatoGUI
         private int selecteditem;
         private bool showItemList;
 
-        private Player MyPlayer;
+        public static Player myPlayer;
 
         private void RoomGUI()
         {

@@ -6,11 +6,19 @@ goto check_Permissions
 :check_Permissions
     net session >nul 2>&1
     if %errorLevel% == 0 (
-        goto createLink
+        goto checkIfExistsDirectory
     ) else (
         echo Run this as administrator.
         pause
         exit
+    )
+
+:checkIfExistsDirectory
+    IF EXIST MelonLoader (
+        rmdir MelonLoader
+        goto createLink
+    ) ELSE (
+        goto createLink
     )
 
 :createLink
