@@ -1,11 +1,9 @@
 name: .NET Core
 
-on:
-  push:
+on: [push]
 
 jobs:
   build:
-    if: github.event.pull_request.head.repo.full_name == github.repository 
     runs-on: windows-latest
 
     steps:
