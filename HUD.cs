@@ -65,7 +65,7 @@ namespace PhasmophobiaPotatoGUI
 
         private static void PlayerInfo()
         {
-            if (Main.player != null)
+            if (Main.player != null && Main.levelController != null)
             {
                 GUI.Label(new Rect(10f, 115f, 150f, 20f), "Hunted: " + Main.player.field_Public_Boolean_0.ToString());
                 float sanity = (float)(Math.Round(Main.player.field_Public_Single_0 * 100f) / 100f);
