@@ -13,17 +13,19 @@ namespace PhasmophobiaPotatoGUI
         public static void DrawHUD()
         {
             WaterMark();
-            if (Menu.ShowInfoGhost)
-            {
-                ghostInfo();
-            }
-            if (Menu.showMissionInfo)
-            {
-                missionInfo();
-            }
-            if (Menu.ShowInfoPlayer)
-            {
-                playerInfo();
+            if (Main.levelController != null)
+                if (Menu.ShowInfoGhost)
+                {
+                    ghostInfo();
+                }
+                if (Menu.showMissionInfo)
+                {
+                    missionInfo();
+                }
+                if (Menu.ShowInfoPlayer)
+                {
+                    playerInfo();
+                }
             }
         }
 
