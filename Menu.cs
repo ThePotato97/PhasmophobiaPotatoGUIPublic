@@ -223,59 +223,58 @@ namespace PhasmophobiaPotatoGUI
         public static bool ShowInfoPlayer = true;
 
         public static bool showMissionInfo = true;
-        
+
         public static bool SpeedHack = true;
-        
+
         public static bool fullbrighttoggle = true;
-        
 
         private static void hudToggles()
         {
-                GUI.Label(new Rect(920f, 295f, 200f, 20f), "ESP:");
-                if (GUI.Toggle(new Rect(920f, 320f, 200f, 20f), GhostESP, "Ghost") != GhostESP)
-                {
-                    GhostESP = !GhostESP;
-                }
-                if (GUI.Toggle(new Rect(920f, 370f, 200f, 20f), PlayerESP, "Player") != PlayerESP)
-                {
-                    PlayerESP = !PlayerESP;
-                }
-                if (GUI.Toggle(new Rect(920f, 395f, 200f, 20f), OuijaESP, "Ouija Board") != OuijaESP)
-                {
-                    OuijaESP = !OuijaESP;
-                }
-                if (GUI.Toggle(new Rect(920f, 420f, 200f, 20f), KeyESP, "Key") != KeyESP)
-                {
-                    KeyESP = !KeyESP;
-                }
-                if (GUI.Toggle(new Rect(920f, 445f, 200f, 20f), EvidenceESP, "Evidence") != EvidenceESP)
-                {
-                    EvidenceESP = !EvidenceESP;
-                }
-                
-                if (GUI.Toggle(new Rect(1120f, 400f, 200f, 20f), SpeedHack, "Speedhack") != SpeedHack)
-                {
-                    SpeedHack = !SpeedHack;
-                }
-                
-                if (GUI.Toggle(new Rect(1120, 415f, 200f, 20f), fullbrighttoggle, "FullBright") != fullbrighttoggle)
-                {
-                    fullbright = !fullbright;
-                    FullBright.changeBright();
-                }
+            GUI.Label(new Rect(920f, 295f, 200f, 20f), "ESP:");
+            if (GUI.Toggle(new Rect(920f, 320f, 200f, 20f), GhostESP, "Ghost") != GhostESP)
+            {
+                GhostESP = !GhostESP;
+            }
+            if (GUI.Toggle(new Rect(920f, 370f, 200f, 20f), PlayerESP, "Player") != PlayerESP)
+            {
+                PlayerESP = !PlayerESP;
+            }
+            if (GUI.Toggle(new Rect(920f, 395f, 200f, 20f), OuijaESP, "Ouija Board") != OuijaESP)
+            {
+                OuijaESP = !OuijaESP;
+            }
+            if (GUI.Toggle(new Rect(920f, 420f, 200f, 20f), KeyESP, "Key") != KeyESP)
+            {
+                KeyESP = !KeyESP;
+            }
+            if (GUI.Toggle(new Rect(920f, 445f, 200f, 20f), EvidenceESP, "Evidence") != EvidenceESP)
+            {
+                EvidenceESP = !EvidenceESP;
+            }
 
-                if (GUI.Toggle(new Rect(1120f, 300f, 200f, 20f), ShowInfoGhost, "Show Ghost Info") != ShowInfoGhost)
-                {
-                    ShowInfoGhost = !ShowInfoGhost;
-                }
-                if (GUI.Toggle(new Rect(1120f, 250f, 200f, 20f), ShowInfoPlayer, "Show Player Info") != ShowInfoPlayer)
-                {
-                    ShowInfoPlayer = !ShowInfoPlayer;
-                }
-                if (GUI.Toggle(new Rect(1120f, 200f, 200f, 20f), ShowMissionInfo, "Show Player Info") != ShowMissionInfo)
-                {
-                    ShowMissionInfo = !ShowMissionInfo;
-                }
+            if (GUI.Toggle(new Rect(1120f, 400f, 200f, 20f), SpeedHack, "Speedhack") != SpeedHack)
+            {
+                SpeedHack = !SpeedHack;
+            }
+
+            if (GUI.Toggle(new Rect(1120, 415f, 200f, 20f), fullbrighttoggle, "FullBright") != fullbrighttoggle)
+            {
+                fullbrighttoggle = !fullbrighttoggle;
+                FullBright.changeBright();
+            }
+
+            if (GUI.Toggle(new Rect(1120f, 300f, 200f, 20f), ShowInfoGhost, "Show Ghost Info") != ShowInfoGhost)
+            {
+                ShowInfoGhost = !ShowInfoGhost;
+            }
+            if (GUI.Toggle(new Rect(1120f, 250f, 200f, 20f), ShowInfoPlayer, "Show Player Info") != ShowInfoPlayer)
+            {
+                ShowInfoPlayer = !ShowInfoPlayer;
+            }
+            if (GUI.Toggle(new Rect(1120f, 200f, 200f, 20f), showMissionInfo, "Show Player Info") != showMissionInfo)
+            {
+                showMissionInfo = !showMissionInfo;
+            }
         }
 
         public static Rect dropDownRect2 = new Rect(820f, 0f, 200f, 300f);

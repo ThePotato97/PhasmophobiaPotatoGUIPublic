@@ -149,7 +149,7 @@ namespace PhasmophobiaPotatoGUI
         public static bool ShowInfoPlayer = true;
 
         public static MissionManager missionManager;
-        
+
         public static Transform boneTransform;
 
         public static Animator playerAnim;
@@ -159,7 +159,7 @@ namespace PhasmophobiaPotatoGUI
         private static bool canRun = true;
 
         private static bool isRunning = true;
-        
+
         public override void OnLevelWasInitialized(int level)
         {
             if (level == 1 && Main.canRun)
@@ -545,6 +545,7 @@ namespace PhasmophobiaPotatoGUI
         }
 
         private Vector2 scrollViewVector;
+        private static int initializedScene;
 
         public override void OnGUI()
         {
