@@ -264,8 +264,8 @@ namespace PhasmophobiaPotatoGUI
                 FullBright.changeBright();
             }
             
-            GUI.Label(new Rect(720f, 0f, 200f, 20f), "Lights:");
-            if (GUI.Button(new Rect(720f, 25f, 200f, 20f), "All Lights On"))
+            GUI.Label(new Rect(740f, 145f, 200f, 20f), "Lights:");
+            if (GUI.Button(new Rect(740f, 175f, 200f, 20f), "All Lights On"))
             {
                 foreach (LightSwitch lightSwitch1 in Main.lightSwitches)
                 {
@@ -273,7 +273,7 @@ namespace PhasmophobiaPotatoGUI
                     lightSwitch1.TurnOnNetworked(true);
                 }
             }
-            if (GUI.Button(new Rect(720f, 50f, 200f, 20f), "All Lights Off"))
+            if (GUI.Button(new Rect(740f, 195f, 200f, 20f), "All Lights Off"))
             {
                 foreach (LightSwitch lightSwitch2 in Main.lightSwitches)
                 {
