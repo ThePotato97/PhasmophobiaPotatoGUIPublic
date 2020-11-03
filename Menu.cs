@@ -1,5 +1,7 @@
 ﻿using MelonLoader;
 using Photon.Pun;
+using Photon.Realtime;
+using System;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -9,12 +11,17 @@ namespace PhasmophobiaPotatoGUI
     {
         public static void drawMenu()
         {
+            if (!PhotonNetwork.InRoom)
+            {
+                RoomGUI();
+            }
             if (Main.levelController == null)
             {
                 lobbyActions();
             }
-            else
+            if (Main.levelController != null)
             {
+                hudToggles();
                 ghostActions();
             }
             if (showItemList)
@@ -150,6 +157,53 @@ namespace PhasmophobiaPotatoGUI
             if (GUI.Toggle(new Rect(1120f, 325f, 200f, 20f), showItemList, "Show Item Spawner") != showItemList)
             {
                 showItemList = !showItemList;
+            }
+        }
+
+        private static bool isPrivateServer;
+
+        private static string serverName;
+        private static float serverSlots;
+
+        private static void RoomGUI()
+        {
+            if (!PhotonNetwork.InRoom)
+            {
+                GUI.Label(new Rect(720f, 0f, 200f, 20f), "Custom Room Creator:");
+                serverName = GUI.TextArea(new Rect(720f, 25f, 200f, 20f), serverName);
+                serverSlots = GUI.HorizontalSlider(new Rect(720f, 50f, 200f, 20f), (float)((int)serverSlots), 4f, 90f);
+                GUI.Label(new Rect(720f, 65f, 200f, 20f), "Slots: " + ((int)serverSlots).ToString());
+                if (GUI.Toggle(new Rect(720f, 80f, 200f, 20f), isPrivateServer, "Private Room") != isPrivateServer)
+                {
+                    isPrivateServer = !isPrivateServer;
+                }
+                if (GUI.Button(new Rect(720f, 105f, 200f, 20f), "Create Custom Room"))
+                {
+                    if (isPrivateServer)
+                    {
+                        PlayerPrefs.SetInt("isPublicServer", 0);
+                        RoomOptions roomOptions = new RoomOptions
+                        {
+                            IsOpen = true,
+                            IsVisible = false,
+                            MaxPlayers = Convert.ToByte((int)serverSlots),
+                            PlayerTtl = 2000
+                        };
+                        PhotonNetwork.CreateRoom(UnityEngine.Random.Range(0, 999999).ToString("000000"), roomOptions, TypedLobby.Default);
+                    }
+                    if (!isPrivateServer)
+                    {
+                        PlayerPrefs.SetInt("isPublicServer", 1);
+                        RoomOptions roomOptions2 = new RoomOptions
+                        {
+                            IsOpen = true,
+                            IsVisible = true,
+                            MaxPlayers = Convert.ToByte((int)serverSlots),
+                            PlayerTtl = 2000
+                        };
+                        PhotonNetwork.CreateRoom(serverName + "#" + UnityEngine.Random.Range(0, 999999).ToString("000000"), roomOptions2, TypedLobby.Default);
+                    }
+                }
             }
         }
 
