@@ -25,6 +25,7 @@ namespace PhasmophobiaPotatoGUI
 
         private static void ghostActions()
         {
+            GUI.Label(new Rect(520f, 95f, 200f, 20f), "Ghost:");
             if (GUI.Button(new Rect(520f, 120f, 200f, 20f), "Random Event") && Main.ghostAI != null)
             {
                 Main.ghostAI.field_Public_GhostActivity_0.InteractWithARandomDoor();
@@ -261,6 +262,24 @@ namespace PhasmophobiaPotatoGUI
             {
                 fullbrighttoggle = !fullbrighttoggle;
                 FullBright.changeBright();
+            }
+            
+            GUI.Label(new Rect(720f, 0f, 200f, 20f), "Lights:");
+            if (GUI.Button(new Rect(720f, 25f, 200f, 20f), "All Lights On"))
+            {
+                foreach (LightSwitch lightSwitch1 in Main.lightSwitches)
+                {
+                    lightSwitch1.TurnOn(true);
+                    lightSwitch1.TurnOnNetworked(true);
+                }
+            }
+            if (GUI.Button(new Rect(720f, 50f, 200f, 20f), "All Lights Off"))
+            {
+                foreach (LightSwitch lightSwitch2 in Main.lightSwitches)
+                {
+                    lightSwitch2.TurnOff();
+                    lightSwitch2.TurnOffNetworked(true);
+                }
             }
 
             if (GUI.Toggle(new Rect(1120f, 300f, 200f, 20f), ShowInfoGhost, "Show Ghost Info") != ShowInfoGhost)
