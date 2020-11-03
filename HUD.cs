@@ -18,14 +18,13 @@ namespace PhasmophobiaPotatoGUI
                 {
                     ghostInfo();
                 }
-                if (Menu.showMissionInfo)
-                {
-                    missionInfo();
-                }
-                if (Menu.ShowInfoPlayer)
-                {
-                    playerInfo();
-                }
+            if (Menu.showMissionInfo)
+            {
+                MissionInfo();
+            }
+            if (Menu.ShowInfoPlayer)
+            {
+                PlayerInfo();
             }
         }
 
@@ -53,7 +52,7 @@ namespace PhasmophobiaPotatoGUI
             }
         }
 
-        private static void missionInfo()
+        private static void MissionInfo()
         {
             if (Main.missionManager != null)
             {
@@ -64,7 +63,7 @@ namespace PhasmophobiaPotatoGUI
             }
         }
 
-        private static void playerInfo()
+        private static void PlayerInfo()
         {
             if (Main.player != null)
             {
