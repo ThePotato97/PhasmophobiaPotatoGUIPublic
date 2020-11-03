@@ -4,7 +4,7 @@
 
 [![forthebadge](https://forthebadge.com/images/badges/made-with-crayons.svg)](https://forthebadge.com)[![forthebadge](https://forthebadge.com/images/badges/it-works-why.svg)](https://forthebadge.com)[![forthebadge](https://forthebadge.com/images/badges/ctrl-c-ctrl-v.svg)](https://forthebadge.com)
 
-[![forthebadge](https://forthebadge.com/images/badges/works-on-my-machine.svg)](https://forthebadge.com)
+[![forthebadge](https://forthebadge.com/images/badges/works-on-my-machine.svg)](https://forthebadge.com) [![Join the chat at https://gitter.im/PhasmophobiaPotatoGUIPublic/community](https://badges.gitter.im/PhasmophobiaPotatoGUIPublic/community.svg)](https://gitter.im/PhasmophobiaPotatoGUIPublic/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Feel free to fork and PR.
 
