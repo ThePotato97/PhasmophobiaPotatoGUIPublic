@@ -226,7 +226,7 @@ namespace PhasmophobiaPotatoGUI
         
         public static bool SpeedHack = true;
         
-        public static bool fullbright = true;
+        public static bool fullbrighttoggle = true;
         
 
         private static void hudToggles()
@@ -258,9 +258,10 @@ namespace PhasmophobiaPotatoGUI
                     SpeedHack = !SpeedHack;
                 }
                 
-                if (GUI.Toggle(new Rect(1120, 415f, 200f, 20f), fullbright, "FullBright") != fullbright)
+                if (GUI.Toggle(new Rect(1120, 415f, 200f, 20f), fullbrighttoggle, "FullBright") != fullbrighttoggle)
                 {
                     fullbright = !fullbright;
+                    FullBright.changeBright();
                 }
 
                 if (GUI.Toggle(new Rect(1120f, 300f, 200f, 20f), ShowInfoGhost, "Show Ghost Info") != ShowInfoGhost)

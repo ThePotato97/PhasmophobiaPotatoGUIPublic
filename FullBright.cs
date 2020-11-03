@@ -8,8 +8,8 @@ namespace PhasmophobiaPotatoGUI
         public static void changeBright()
         {
             
-            GUI.Label(new Rect(10f, 160f, 150f, 20f), "Fullbright: " + Menu.fullbright);
-            if (Menu.fullbright)
+            GUI.Label(new Rect(10f, 160f, 150f, 20f), "Fullbright: " + Menu.fullbrighttoggle);
+            if (Menu.fullbrighttoggle)
             {
                 Main.light = Main.boneTransform.gameObject.AddComponent<Light>();
                 Main.light.color = Color.white;
