@@ -228,10 +228,6 @@ namespace PhasmophobiaPotatoGUI
                     await Task.Delay(150);
                     Main.lightSwitches = Enumerable.ToList<LightSwitch>(GameObject.FindObjectsOfType<LightSwitch>());
                     await Task.Delay(150);
-                    if (myPlayer == null)
-                    {
-                        Main.myPlayer = GetLocalPlayer();
-                    }
                 }
             }
         }
