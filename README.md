@@ -15,3 +15,7 @@ Run RUNME.bat as ADMINISTRATOR and enter the FULL path to your MelonLoader folde
 ``A:\SteamLibrary\steamapps\common\Phasmophobia\MelonLoader``
 
 Open ``PhasmophobiaPotatoGUI.sln`` and build.
+
+
+
+Phasmophobia is the trademark of  Kinetic Games	which is not associated with this project.
