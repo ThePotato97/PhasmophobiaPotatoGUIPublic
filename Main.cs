@@ -555,6 +555,7 @@ namespace PhasmophobiaPotatoGUI
                 {
                     SpeedHack.playerSpeed();
                     ESPMethods.drawESP();
+                    FullBright.changeBright();
                 }
                 if (menuEnabled && Main.levelController != null)
                 {
