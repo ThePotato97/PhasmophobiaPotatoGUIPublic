@@ -253,9 +253,9 @@ namespace PhasmophobiaPotatoGUI
                 {
                     ShowInfoPlayer = !ShowInfoPlayer;
                 }
-                if (GUI.Toggle(new Rect(1120f, 250f, 200f, 20f), ShowInfoPlayer, "Show Player Info") != ShowInfoPlayer)
+                if (GUI.Toggle(new Rect(1120f, 200f, 200f, 20f), ShowMissionInfo, "Show Player Info") != ShowMissionInfo)
                 {
-                    ShowInfoPlayer = !ShowInfoPlayer;
+                    ShowMissionInfo = !ShowMissionInfo;
                 }
             }
         }
