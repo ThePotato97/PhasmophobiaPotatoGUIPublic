@@ -225,11 +225,12 @@ namespace PhasmophobiaPotatoGUI
         public static bool showMissionInfo = true;
         
         public static bool SpeedHack = true;
+        
+        public static bool fullbright = true;
+        
 
         private static void hudToggles()
         {
-            if (Main.levelController != null)
-            {
                 GUI.Label(new Rect(920f, 295f, 200f, 20f), "ESP:");
                 if (GUI.Toggle(new Rect(920f, 320f, 200f, 20f), GhostESP, "Ghost") != GhostESP)
                 {
@@ -256,6 +257,11 @@ namespace PhasmophobiaPotatoGUI
                 {
                     SpeedHack = !SpeedHack;
                 }
+                
+                if (GUI.Toggle(new Rect(1120, 415f, 200f, 20f), fullbright, "FullBright") != fullbright)
+                {
+                    fullbright = !fullbright;
+                }
 
                 if (GUI.Toggle(new Rect(1120f, 300f, 200f, 20f), ShowInfoGhost, "Show Ghost Info") != ShowInfoGhost)
                 {
@@ -269,7 +275,6 @@ namespace PhasmophobiaPotatoGUI
                 {
                     ShowMissionInfo = !ShowMissionInfo;
                 }
-            }
         }
 
         public static Rect dropDownRect2 = new Rect(820f, 0f, 200f, 300f);
