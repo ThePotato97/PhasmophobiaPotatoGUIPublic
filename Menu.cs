@@ -9,8 +9,14 @@ namespace PhasmophobiaPotatoGUI
     {
         public static void drawMenu()
         {
-            ghostActions();
-            lobbyActions();
+            if (Main.levelController == null)
+            {
+                lobbyActions();
+            }
+            else
+            {
+                ghostActions();
+            }
             if (showItemList)
             {
                 spawnItemMenu();
@@ -217,6 +223,8 @@ namespace PhasmophobiaPotatoGUI
         public static bool ShowInfoPlayer = true;
 
         public static bool showMissionInfo = true;
+        
+        public static bool SpeedHack = true;
 
         private static void hudToggles()
         {
@@ -243,6 +251,11 @@ namespace PhasmophobiaPotatoGUI
                 {
                     EvidenceESP = !EvidenceESP;
                 }
+                
+                if (GUI.Toggle(new Rect(1120f, 400f, 200f, 20f), SpeedHack, "Speedhack") != SpeedHack)
+                {
+                    SpeedHack = !SpeedHack;
+                }
 
                 if (GUI.Toggle(new Rect(1120f, 300f, 200f, 20f), ShowInfoGhost, "Show Ghost Info") != ShowInfoGhost)
                 {
@@ -252,9 +265,9 @@ namespace PhasmophobiaPotatoGUI
                 {
                     ShowInfoPlayer = !ShowInfoPlayer;
                 }
-                if (GUI.Toggle(new Rect(1120f, 250f, 200f, 20f), ShowInfoPlayer, "Show Player Info") != ShowInfoPlayer)
+                if (GUI.Toggle(new Rect(1120f, 200f, 200f, 20f), ShowMissionInfo, "Show Player Info") != ShowMissionInfo)
                 {
-                    ShowInfoPlayer = !ShowInfoPlayer;
+                    ShowMissionInfo = !ShowMissionInfo;
                 }
             }
         }

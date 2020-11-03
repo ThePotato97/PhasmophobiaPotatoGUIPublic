@@ -519,11 +519,22 @@ namespace PhasmophobiaPotatoGUI
             if (guiEnabled)
             {
                 HUD.DrawHUD();
-                ESPMethods.drawESP();
+                if (Main.levelController != null)
+                {
+                    SpeedHack.playerSpeed();
+                    ESPMethods.drawESP();
+                }
+                if (menuEnabled && Main.levelController != null)
+                {
+                    Menu.hudToggles();
+                }
                 //PlayerESPFunc();
-
                 if (menuEnabled)
                 {
+                    if (!PhotonNetwork.InRoom)
+                    {
+                        RoomGUI();
+                    }
                     Menu.drawMenu();
                 }
             }
