@@ -1,10 +1,12 @@
-﻿using Harmony;
+using Harmony;
 using MelonLoader;
 using Photon.Pun;
 using Photon.Realtime;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AI;
@@ -147,89 +149,131 @@ namespace PhasmophobiaPotatoGUI
         public static bool ShowInfoPlayer = true;
 
         public static MissionManager missionManager;
+        
+        public static Transform boneTransform;
 
-        public async Task LoadObjectsTask()
+        public static Animator playerAnim;
+
+        private static object coRoutine;
+
+        private static bool canRun = true;
+
+        private static bool isRunning = true;
+        
+        public override void OnLevelWasInitialized(int level)
         {
-            string curSceneName = SceneManager.GetActiveScene().name.ToLower();
-            while (!curSceneName.Contains("menu") && !curSceneName.Contains("new"))
+            if (level == 1 && Main.canRun)
             {
-                await Task.Delay(4000);
-                if (SceneManager.sceneLoaded != null)
+                Main.canRun = false;
+                new Thread(delegate ()
                 {
-                    Main.missionManager = GameObject.FindObjectOfType<MissionManager>();
-                    await Task.Delay(150);
-                    Main.gameController = GameObject.FindObjectOfType<GameController>();
-                    await Task.Delay(150);
-                    Main.levelController = GameObject.FindObjectOfType<LevelController>();
-                    await Task.Delay(150);
-                    Main.levelSelectionManager = GameObject.FindObjectOfType<LevelSelectionManager>();
-                    await Task.Delay(150);
-                    Main.walkieTalkie = GameObject.FindObjectOfType<WalkieTalkie>();
-                    await Task.Delay(150);
-                    Main.handCamera = GameObject.FindObjectOfType<HandCamera>();
-                    await Task.Delay(150);
-                    Main.inventoryManager = GameObject.FindObjectOfType<InventoryManager>();
-                    await Task.Delay(150);
-                    Main.liftButton = GameObject.FindObjectOfType<LiftButton>();
-                    await Task.Delay(150);
-                    Main.contract = GameObject.FindObjectOfType<Contract>();
-                    await Task.Delay(150);
-                    Main.pCMenu = GameObject.FindObjectOfType<PCMenu>();
-                    await Task.Delay(150);
-                    Main.exitLevel = GameObject.FindObjectOfType<ExitLevel>();
-                    await Task.Delay(150);
-                    Main.ghostAI = GameObject.FindObjectOfType<GhostAI>();
-                    await Task.Delay(150);
-                    Main.lightSwitch = GameObject.FindObjectOfType<LightSwitch>();
-                    await Task.Delay(150);
-                    Main.light = GameObject.FindObjectOfType<Light>();
-                    await Task.Delay(150);
-                    Main.dNAEvidences = Enumerable.ToList<DNAEvidence>(GameObject.FindObjectsOfType<DNAEvidence>());
-                    await Task.Delay(150);
-                    Main.contracts = Enumerable.ToList<Contract>(GameObject.FindObjectsOfType<Contract>());
-                    await Task.Delay(150);
-                    Main.items = Enumerable.ToList<InventoryItem>(GameObject.FindObjectsOfType<InventoryItem>());
-                    await Task.Delay(150);
-                    Main.players = Enumerable.ToList<Player>(GameObject.FindObjectsOfType<Player>());
-                    await Task.Delay(150);
-                    Main.photonView = GameObject.FindObjectOfType<PhotonView>();
-                    await Task.Delay(150);
-                    Main.ghostInfo = GameObject.FindObjectOfType<GhostInfo>();
-                    await Task.Delay(150);
-                    Main.deadPlayer = GameObject.FindObjectOfType<DeadPlayer>();
-                    await Task.Delay(150);
-                    Main.player = GameObject.FindObjectOfType<Player>();
-                    await Task.Delay(150);
-                    Main.rigidbody = GameObject.FindObjectOfType<Rigidbody>();
-                    await Task.Delay(150);
-                    Main.itemSpawner = GameObject.FindObjectOfType<ItemSpawner>();
-                    await Task.Delay(150);
-                    Main.ghostInteraction = GameObject.FindObjectOfType<GhostInteraction>();
-                    await Task.Delay(150);
-                    //Main.baseController = GameObject.FindObjectOfType<BaseController>();
-                    await Task.Delay(150);
-                    Main.ouijaBoard = GameObject.FindObjectOfType<OuijaBoard>();
-                    await Task.Delay(150);
-                    Main.ouijaBoards = Enumerable.ToList<OuijaBoard>(GameObject.FindObjectsOfType<OuijaBoard>());
-                    await Task.Delay(150);
-                    Main.keys = Enumerable.ToList<Key>(GameObject.FindObjectsOfType<Key>());
-                    await Task.Delay(150);
-                    Main.ghosts = Enumerable.ToList<GhostAI>(GameObject.FindObjectsOfType<GhostAI>());
-                    await Task.Delay(150);
-                    Main.serverManager = GameObject.FindObjectOfType<ServerManager>();
-                    await Task.Delay(150);
-                    Main.torches = Enumerable.ToList<Torch>(GameObject.FindObjectsOfType<Torch>());
-                    await Task.Delay(150);
-                    Main.ghostAudio = GameObject.FindObjectOfType<GhostAudio>();
-                    await Task.Delay(150);
-                    Main.fuseBox = GameObject.FindObjectOfType<FuseBox>();
-                    await Task.Delay(150);
-                    Main.doors = Enumerable.ToList<Door>(GameObject.FindObjectsOfType<Door>());
-                    await Task.Delay(150);
-                    Main.lightSwitches = Enumerable.ToList<LightSwitch>(GameObject.FindObjectsOfType<LightSwitch>());
-                    await Task.Delay(150);
+                    while (Main.isRunning)
+                    {
+                        Main.coRoutine = MelonCoroutines.Start(LoadObjectsTask());
+                        Thread.Sleep(5000);
+                    }
+                }).Start();
+            }
+            Main.initializedScene = level;
+        }
+
+        public IEnumerator LoadObjectsTask()
+        {
+            yield return new WaitForSeconds(0.15f);
+            Main.missionManager = GameObject.FindObjectOfType<MissionManager>();
+            yield return new WaitForSeconds(0.15f); ;
+            Main.gameController = GameObject.FindObjectOfType<GameController>();
+            yield return new WaitForSeconds(0.15f);
+            Main.levelController = GameObject.FindObjectOfType<LevelController>();
+            yield return new WaitForSeconds(0.15f); ;
+            Main.levelSelectionManager = GameObject.FindObjectOfType<LevelSelectionManager>();
+            yield return new WaitForSeconds(0.15f);
+            Main.walkieTalkie = GameObject.FindObjectOfType<WalkieTalkie>();
+            yield return new WaitForSeconds(0.15f);
+            Main.handCamera = GameObject.FindObjectOfType<HandCamera>();
+            yield return new WaitForSeconds(0.15f);
+            Main.inventoryManager = GameObject.FindObjectOfType<InventoryManager>();
+            yield return new WaitForSeconds(0.15f);
+            Main.liftButton = GameObject.FindObjectOfType<LiftButton>();
+            yield return new WaitForSeconds(0.15f);
+            Main.contract = GameObject.FindObjectOfType<Contract>();
+            yield return new WaitForSeconds(0.15f);
+            Main.pCMenu = GameObject.FindObjectOfType<PCMenu>();
+            yield return new WaitForSeconds(0.15f);
+            Main.exitLevel = GameObject.FindObjectOfType<ExitLevel>();
+            yield return new WaitForSeconds(0.15f);
+            Main.ghostAI = UnityEngine.Object.FindObjectOfType<GhostAI>();
+            yield return new WaitForSeconds(0.15f);
+            Main.lightSwitch = GameObject.FindObjectOfType<LightSwitch>();
+            yield return new WaitForSeconds(0.15f);
+            Main.light = GameObject.FindObjectOfType<Light>();
+            yield return new WaitForSeconds(0.15f);
+            Main.dNAEvidences = Enumerable.ToList<DNAEvidence>(GameObject.FindObjectsOfType<DNAEvidence>());
+            yield return new WaitForSeconds(0.15f);
+            Main.contracts = Enumerable.ToList<Contract>(GameObject.FindObjectsOfType<Contract>());
+            yield return new WaitForSeconds(0.15f);
+            Main.items = Enumerable.ToList<InventoryItem>(GameObject.FindObjectsOfType<InventoryItem>());
+            yield return new WaitForSeconds(0.15f);
+            Main.players = Enumerable.ToList<Player>(GameObject.FindObjectsOfType<Player>());
+            yield return new WaitForSeconds(0.15f);
+            if (Main.levelController != null)
+            {
+                Main.photonView = (Main.ghostAI.field_Public_PhotonView_0 ?? null);
+                yield return new WaitForSeconds(0.15f);
+            }
+            Main.ghostInfo = GameObject.FindObjectOfType<GhostInfo>();
+            yield return new WaitForSeconds(0.15f);
+            Main.deadPlayer = GameObject.FindObjectOfType<DeadPlayer>();
+            yield return new WaitForSeconds(0.15f);
+            Main.player = GameObject.FindObjectOfType<Player>();
+            yield return new WaitForSeconds(0.15f);
+            Main.rigidbody = GameObject.FindObjectOfType<Rigidbody>();
+            yield return new WaitForSeconds(0.15f);
+            Main.itemSpawner = GameObject.FindObjectOfType<ItemSpawner>();
+            yield return new WaitForSeconds(0.15f);
+            Main.ghostInteraction = GameObject.FindObjectOfType<GhostInteraction>();
+            yield return new WaitForSeconds(0.15f);
+            //Main.baseController = GameObject.FindObjectOfType<BaseController>();
+            yield return new WaitForSeconds(0.15f);
+            Main.ouijaBoard = GameObject.FindObjectOfType<OuijaBoard>();
+            yield return new WaitForSeconds(0.15f);
+            Main.ouijaBoards = Enumerable.ToList<OuijaBoard>(GameObject.FindObjectsOfType<OuijaBoard>());
+            yield return new WaitForSeconds(0.15f);
+            Main.keys = Enumerable.ToList<Key>(GameObject.FindObjectsOfType<Key>());
+            yield return new WaitForSeconds(0.15f);
+            Main.ghosts = Enumerable.ToList<GhostAI>(GameObject.FindObjectsOfType<GhostAI>());
+            yield return new WaitForSeconds(0.15f);
+            Main.serverManager = GameObject.FindObjectOfType<ServerManager>();
+            yield return new WaitForSeconds(0.15f);
+            Main.torches = Enumerable.ToList<Torch>(GameObject.FindObjectsOfType<Torch>());
+            yield return new WaitForSeconds(0.15f);
+            Main.ghostAudio = GameObject.FindObjectOfType<GhostAudio>();
+            yield return new WaitForSeconds(0.15f);
+            Main.fuseBox = GameObject.FindObjectOfType<FuseBox>();
+            yield return new WaitForSeconds(0.15f);
+            Main.doors = Enumerable.ToList<Door>(GameObject.FindObjectsOfType<Door>());
+            yield return new WaitForSeconds(0.15f);
+            Main.lightSwitches = Enumerable.ToList<LightSwitch>(GameObject.FindObjectsOfType<LightSwitch>());
+
+            if (UnityEngine.Object.FindObjectOfType<Player>() != null)
+            {
+                Main.player = (UnityEngine.Object.FindObjectOfType<Player>() ?? null);
+                yield return new WaitForSeconds(0.15f);
+                Main.playerAnim = (Main.player.field_Public_Animator_0 ?? null);
+                yield return new WaitForSeconds(0.15f);
+                if (Main.playerAnim != null)
+                {
+                    Main.boneTransform = (Main.playerAnim.GetBoneTransform((HumanBodyBones)10) ?? null);
+                    yield return new WaitForSeconds(0.15f);
+                    if (Main.boneTransform != null)
+                    {
+                        Main.light = (Main.boneTransform.GetComponent<Light>() ?? null);
+                        yield return new WaitForSeconds(0.15f);
+                    }
                 }
             }
+            yield return null;
+            yield break;
         }
 
         public override void OnApplicationStart()
@@ -237,14 +281,6 @@ namespace PhasmophobiaPotatoGUI
             var list = new List<string> { "Luigi", "Weegee", "Ouija", "Lauigi", "Wega", "Weegi", "Oiji", "Ooija", "Weggy", "Lauigi" };
             int randomInt = new System.Random().Next(list.Count);
             luigiBoardName = list[randomInt];
-
-            string curSceneName = SceneManager.GetActiveScene().name.ToLower();
-
-            while (!curSceneName.Contains("menu") && !curSceneName.Contains("new")) //check if main menu scene is fully loaded
-            {
-                Task.Run(() => LoadObjectsTask());
-                break;
-            }
         }
 
         //[HarmonyPatch(typeof(PhotonNetwork), "CreateRoom")]
