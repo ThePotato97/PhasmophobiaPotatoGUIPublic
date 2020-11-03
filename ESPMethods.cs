@@ -61,7 +61,6 @@ namespace PhasmophobiaPotatoGUI
                 {
                     UnityEngine.Object playerObject = player;
 
-                    MelonLogger.Log("Drawing ESP for " + player.field_Public_PhotonView_0.owner.NickName);
 
                     Vector3 vector2 = Camera.main.WorldToScreenPoint(player.transform.position);
                     if (vector2.z > 0f)
