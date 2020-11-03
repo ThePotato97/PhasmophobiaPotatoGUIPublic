@@ -182,7 +182,6 @@ namespace PhasmophobiaPotatoGUI
             {
                 MyPlayer = Main.GetLocalPlayer();
                 MyPlayer.field_Public_PCPropGrab_0.field_Private_Single_0 = playerReach;
-                MelonLogger.Log(MyPlayer.field_Public_PCPropGrab_0.field_Private_Single_0);
             }
             //GUI.Label(new Rect(920f, 0f, 200f, 20f), "Join Room:");
             //roomName = GUI.TextArea(new Rect(920f, 25f, 200f, 20f), roomName);
