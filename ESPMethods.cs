@@ -23,10 +23,12 @@ namespace PhasmophobiaPotatoGUI
             {
                 BoneESP();
             }
+#if PLAYERESPTEST
             if (Menu.PlayerESP)
             {
                 PlayerESPFunc();
             }
+#endif
             if (Menu.FuseboxESP)
             {
                 FuseBoxESPFunc();
@@ -51,6 +53,7 @@ namespace PhasmophobiaPotatoGUI
             }
         }
 
+#if PLAYERESPTEST
         private static void PlayerESPFunc()
         {
             if (Menu.PlayerESP)
@@ -74,6 +77,7 @@ namespace PhasmophobiaPotatoGUI
                 }
             }
         }
+#endif
 
         private static void KeyESPFunc()
         {
@@ -125,11 +129,11 @@ namespace PhasmophobiaPotatoGUI
                 }
             }
         }
+
         private static void FuseBoxESPFunc()
         {
             if (Main.fuseBox != null)
             {
-
                 Vector3 fuseBoxPos = Camera.main.WorldToScreenPoint(Main.fuseBox.transform.position);
                 if (fuseBoxPos.z > 0f)
                 {
@@ -137,9 +141,7 @@ namespace PhasmophobiaPotatoGUI
                     GUI.color = Color.green;
                     GUI.Label(new Rect(new Vector2(fuseBoxPos.x, fuseBoxPos.y), new Vector2(100f, 100f)), "Fusebox");
                 }
-
             }
         }
-
     }
 }
