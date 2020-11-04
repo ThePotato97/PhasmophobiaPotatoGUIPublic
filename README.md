@@ -8,8 +8,13 @@
 
 Feel free to fork and PR.
 
+# If you do not read below you will have issues
 
-Build instructions:
+Make sure you use my branch of Melonloader HerpDerpinstine's will no longer be supported <br />
+[MelonLoader Installer](https://github.com/ThePotato97/PotatoLoader/releases/download/v0.2.7.2/MelonLoader.Installer.exe)<br />
+[Zip for Manual Install](https://github.com/ThePotato97/PotatoLoader/releases/download/v0.2.7.2/MelonLoader.zip)
+
+## Build instructions:
 
 Run RUNME.bat as ADMINISTRATOR and enter the FULL path to your MelonLoader folder. e.g. <br />
 ``A:\SteamLibrary\steamapps\common\Phasmophobia\MelonLoader``
